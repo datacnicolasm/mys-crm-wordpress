@@ -30,226 +30,55 @@ if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
 ?>
 <div class="row">
     <!-- Columna de informacion del producto -->
-    <div class="col-md-4">
-
-        <!-- Imagen del producto -->
-        <div class="card card-primary card-outline card-crm-products-left">
-            <div class="card-body">
-                <div class="text-center">
-                    <?php
-                    if ($reg_ecommerce && wp_get_attachment_image_url($product_wc->get_image_id())) {
-                        echo '<img class="product-img img-fluid my-1" src="';
-                        echo wp_get_attachment_image_url($product_wc->get_image_id());
-                        echo '" width="200px" height="200px">';
-                    } else {
-                        echo '<img class="product-img img-fluid my-1" src="';
-                        echo wc_placeholder_img_src();
-                        echo '" width="200px" height="200px">';
-                    }
-
-                    ?>
-                </div>
-                <h4 class="profile-username text-center"><?php echo esc_html($products[0]["nom_ref"]) ?></h4>
-                <p class="text-muted text-center"><?php echo "Cod. " . esc_html($products[0]["cod_ref"]) ?></p>
-
-                <?php
-
-                $reg_ecommerce = false;
-
-                if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
-                    echo '<div class="alert alert-warning text-center alert-crm">';
-                    echo "Sin registro en E-commerce";
-                    echo '</div>';
-                } else {
-                    $reg_ecommerce = true;
-                    $product_wc = wc_get_product(wc_get_product_id_by_sku($products[0]["cod_ref"]));
-                    echo '<div class="alert alert-success text-center alert-crm">';
-                    echo 'Registrado en e-commerce';
-                    echo '</div>';
-                }
-
-                ?>
-
-                <ul class="list-group list-group-unbordered mb-3">
-                    <li class="list-group-item">
-                        <b>Marca:</b><br> <span><?php echo esc_html($products[0]["brand"]["Nom_mar"]) ?></span>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Linea:</b><br> <span><?php echo esc_html($products[0]["type"]["nom_tip"]) ?></span>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Grupo:</b><br> <span><?php echo esc_html($products[0]["group"]["nom_gru"]) ?></span>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Precio de venta:</b> <a class="float-right">
-                            <?php echo esc_html(number_format(floatval($products[0]["val_ref"]), 0, ',', '.')) ?>
-                        </a>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Descuento:</b> <a class="float-right">% 10</a>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Precio con descuento:</b> <a class="float-right">
-                            <?php
-                            if ($reg_ecommerce) {
-                                echo esc_html(number_format(floatval($product_wc->get_sale_price()), 0, ',', '.'));
-                            } else {
-                                echo "-";
-                            }
-                            ?>
-                        </a>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Stock minimo</b> <a class="float-right"><?php echo esc_html($products[0]["stock_min"]) ?></a>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Rotacion</b> <a class="float-right">13,287</a>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Indicador de rotacion</b> <a class="float-right">999</a>
-                    </li>
-                </ul>
-                <?php
-                if ($reg_ecommerce) {
-                    echo '<a href="';
-                    echo esc_attr(get_permalink($product_wc->get_id()));
-                    echo '" class="btn btn-primary btn-block"><b>Ver en E-commerce</b></a>';
-                }
-                ?>
-            </div>
-            <!-- /.card-body -->
-        </div>
-    </div>
-
-    <!-- Columna de informacion del producto -->
     <div class="col-md-8">
+        <!-- Columna de botones -->
         <div class="card card-primary card-outline card-crm-products-rigth">
-            <div class="card-body">
-                <h5>Botones aqui</h5>
+            <div class="card-body card-buttons-product">
+                <a class="btn btn-app bg-danger">
+                    <i class="fas fa-edit"></i> Editar
+                </a>
+                <a class="btn btn-app bg-danger">
+                    <i class="fas fa-file"></i> Ticket
+                </a>
             </div>
         </div>
+        <!-- Columna de informacion -->
         <div class="card card-primary card-outline card-crm-products-rigth">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#tickets" data-toggle="tab">Tickets</a></li>
                     <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
                     <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
                 </ul>
             </div><!-- /.card-header -->
             <div class="card-body">
                 <div class="tab-content">
-                    <div class="active tab-pane" id="activity">
-                        <!-- Post -->
-                        <div class="post">
-                            <div class="user-block">
-                                <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
-                                <span class="username">
-                                    <a href="#">Jonathan Burke Jr.</a>
-                                    <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                </span>
-                                <span class="description">Shared publicly - 7:30 PM today</span>
-                            </div>
-                            <!-- /.user-block -->
-                            <p>
-                                Lorem ipsum represents a long-held tradition for designers,
-                                typographers and the like. Some people hate it and argue for
-                                its demise, but others ignore the hate as they create awesome
-                                tools to help create filler text for everyone from bacon lovers
-                                to Charlie Sheen fans.
-                            </p>
-
-                            <p>
-                                <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                                <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                                <span class="float-right">
-                                    <a href="#" class="link-black text-sm">
-                                        <i class="far fa-comments mr-1"></i> Comments (5)
-                                    </a>
-                                </span>
-                            </p>
-
-                            <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
+                    <div class="active tab-pane" id="tickets">
+                        <!-- Ticket -->
+                        <div class="card-body p-0">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 20px">ID</th>
+                                        <th class="text-center">Fecha</th>
+                                        <th class="text-center">Tipo de ticket</th>
+                                        <th class="text-center">Cliente</th>
+                                        <th class="text-center">Estado</th>
+                                        <th class="text-center" style="width: 100px">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Update software</td>
+                                        <td>Update software</td>
+                                        <td>Update software</td>
+                                        <td>Update software</td>
+                                        <td>Update software</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <!-- /.post -->
-
-                        <!-- Post -->
-                        <div class="post clearfix">
-                            <div class="user-block">
-                                <img class="img-circle img-bordered-sm" src="../../dist/img/user7-128x128.jpg" alt="User Image">
-                                <span class="username">
-                                    <a href="#">Sarah Ross</a>
-                                    <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                </span>
-                                <span class="description">Sent you a message - 3 days ago</span>
-                            </div>
-                            <!-- /.user-block -->
-                            <p>
-                                Lorem ipsum represents a long-held tradition for designers,
-                                typographers and the like. Some people hate it and argue for
-                                its demise, but others ignore the hate as they create awesome
-                                tools to help create filler text for everyone from bacon lovers
-                                to Charlie Sheen fans.
-                            </p>
-
-                            <form class="form-horizontal">
-                                <div class="input-group input-group-sm mb-0">
-                                    <input class="form-control form-control-sm" placeholder="Response">
-                                    <div class="input-group-append">
-                                        <button type="submit" class="btn btn-danger">Send</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <!-- /.post -->
-
-                        <!-- Post -->
-                        <div class="post">
-                            <div class="user-block">
-                                <img class="img-circle img-bordered-sm" src="../../dist/img/user6-128x128.jpg" alt="User Image">
-                                <span class="username">
-                                    <a href="#">Adam Jones</a>
-                                    <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                                </span>
-                                <span class="description">Posted 5 photos - 5 days ago</span>
-                            </div>
-                            <!-- /.user-block -->
-                            <div class="row mb-3">
-                                <div class="col-sm-6">
-                                    <img class="img-fluid" src="../../dist/img/photo1.png" alt="Photo">
-                                </div>
-                                <!-- /.col -->
-                                <div class="col-sm-6">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <img class="img-fluid mb-3" src="../../dist/img/photo2.png" alt="Photo">
-                                            <img class="img-fluid" src="../../dist/img/photo3.jpg" alt="Photo">
-                                        </div>
-                                        <!-- /.col -->
-                                        <div class="col-sm-6">
-                                            <img class="img-fluid mb-3" src="../../dist/img/photo4.jpg" alt="Photo">
-                                            <img class="img-fluid" src="../../dist/img/photo1.png" alt="Photo">
-                                        </div>
-                                        <!-- /.col -->
-                                    </div>
-                                    <!-- /.row -->
-                                </div>
-                                <!-- /.col -->
-                            </div>
-                            <!-- /.row -->
-
-                            <p>
-                                <a href="#" class="link-black text-sm mr-2"><i class="fas fa-share mr-1"></i> Share</a>
-                                <a href="#" class="link-black text-sm"><i class="far fa-thumbs-up mr-1"></i> Like</a>
-                                <span class="float-right">
-                                    <a href="#" class="link-black text-sm">
-                                        <i class="far fa-comments mr-1"></i> Comments (5)
-                                    </a>
-                                </span>
-                            </p>
-
-                            <input class="form-control form-control-sm" type="text" placeholder="Type a comment">
-                        </div>
-                        <!-- /.post -->
                     </div>
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="timeline">
@@ -400,6 +229,124 @@ if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
                 </div>
                 <!-- /.tab-content -->
             </div><!-- /.card-body -->
+        </div>
+    </div>
+
+    <!-- Columna de informacion del producto -->
+    <div class="col-md-4">
+
+        <!-- Imagen del producto -->
+        <div class="card card-primary card-outline card-crm-products-left">
+            <div class="card-body">
+                <div class="text-center">
+                    <?php
+                    if ($reg_ecommerce && wp_get_attachment_image_url($product_wc->get_image_id())) {
+                        echo '<img class="product-img img-fluid my-1" src="';
+                        echo wp_get_attachment_image_url($product_wc->get_image_id());
+                        echo '" width="200px" height="200px">';
+                    } else {
+                        echo '<img class="product-img img-fluid my-1" src="';
+                        echo wc_placeholder_img_src();
+                        echo '" width="200px" height="200px">';
+                    }
+
+                    ?>
+                </div>
+                <h4 class="profile-username text-center"><?php echo esc_html($products[0]["nom_ref"]) ?></h4>
+                <p class="text-muted text-center"><?php echo "Cod. " . esc_html($products[0]["cod_ref"]) ?></p>
+
+                <?php
+
+                $reg_ecommerce = false;
+
+                if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
+                    echo '<div class="alert alert-warning text-center alert-crm">';
+                    echo "Sin registro en E-commerce";
+                    echo '</div>';
+                } else {
+                    $reg_ecommerce = true;
+                    $product_wc = wc_get_product(wc_get_product_id_by_sku($products[0]["cod_ref"]));
+                    echo '<div class="alert alert-success text-center alert-crm">';
+                    echo 'Registrado en e-commerce';
+                    echo '</div>';
+                }
+
+                ?>
+
+                <ul class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item">
+                        <b>Marca:</b> <span class="float-right"><?php echo esc_html($products[0]["brand"]["Nom_mar"]) ?></span>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Linea:</b> <span class="float-right"><?php echo esc_html($products[0]["type"]["nom_tip"]) ?></span>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Grupo:</b> <span class="float-right"><?php echo esc_html($products[0]["group"]["nom_gru"]) ?></span>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Precio de venta:</b> <span class="float-right">
+                            <?php echo esc_html(number_format(floatval($products[0]["val_ref"]), 0, ',', '.')) ?>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Descuento:</b> <span class="float-right">
+                            <?php
+                            if ($reg_ecommerce) {
+                                echo esc_html(number_format(floatval($product_wc->get_sale_price()), 0, ',', '.'));
+                            } else {
+                                echo "-";
+                            }
+                            ?>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Precio con descuento:</b> <span class="float-right">
+                            <?php
+                            if ($reg_ecommerce && floatval($product_wc->get_sale_price()) > 0) {
+                                $precio_normal = floatval($products[0]["val_ref"]);
+                                $precio_descuento = floatval($product_wc->get_sale_price());
+                                $calc_descuento = floatval((1 - ($precio_descuento / $precio_normal)) * 100);
+                                echo "% " . esc_html(number_format($calc_descuento, 2, ',', '.'));
+                            } else {
+                                echo "% 0";
+                            }
+                            ?>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Stock minimo</b> <span class="float-right"><?php echo esc_html($products[0]["stock_min"]) ?></span>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Rotacion</b> <span class="float-right">
+                            <?php
+
+                            switch ($products[0]["rotacion"]) {
+                                case '0':
+                                    echo esc_html("BAJA ROTACIÓN");
+                                    break;
+                                case '1':
+                                    echo esc_html("MEDIA ROTACIÓN");
+                                    break;
+                                case '2':
+                                    echo esc_html("ALTA ROTACIÓN");
+                                    break;
+                            }
+                            ?>
+                        </span>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Indicador de rotacion</b> <a class="float-right">999</a>
+                    </li>
+                </ul>
+                <?php
+                if ($reg_ecommerce) {
+                    echo '<a href="';
+                    echo esc_attr(get_permalink($product_wc->get_id()));
+                    echo '" class="btn btn-primary btn-block" target="_blank"><b>Ver en E-commerce</b></a>';
+                }
+                ?>
+            </div>
+            <!-- /.card-body -->
         </div>
     </div>
 </div>

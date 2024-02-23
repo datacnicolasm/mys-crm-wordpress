@@ -33,6 +33,8 @@ jQuery(document).ready(function ($) {
         $(".card-crm-products-rigth").css("padding", "0");
         $(".card-crm-products-left").css("padding", "0");
         $(".alert-crm").css("padding", ".75rem 1.25rem");
+        $(".card-buttons-product").css("padding", "1rem");
+        $(".card-buttons-product .btn").css("margin", "0");
     }
 
     // TABLES
