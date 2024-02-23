@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || die();
 
 global $wpdb;
  
+define( 'CRM_HUB_MYS_API_LARAVEL', 'http://localhost/my-api/public/' );
 define( 'CRM_HUB_MYS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CRM_HUB_MYS_PLUGIN_FILE', __FILE__ );
 define( 'CRM_HUB_MYS_PLUGIN_URL', plugins_url() . '/mys-crm-hub' );

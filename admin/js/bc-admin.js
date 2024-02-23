@@ -28,38 +28,28 @@ jQuery(document).ready(function ($) {
         $(".card-crm-motos").css("padding", "0");
         $(".card-crm-motos").css("max-width", "inherit");
         $(".card-crm-motos").css("box-sizing", "inherit");
-        /*$(".card-crm-motos").css("", "");
-        $(".card-crm-motos").css("", "");
-        $(".card-crm-motos").css("", "");
-        $(".card-crm-motos").css("", "");
-        $(".card-crm-motos").css("", "");
-        $(".card-crm-motos").css("", "");
-        $(".card-crm-motos").css("", "");
-        $(".card-crm-motos").css("", "");
-        $(".card-crm-motos").css("", "");
-        $(".card-crm-motos").css("", "");
-        $(".card-crm-motos").css("", "");*/
+
+        $(".card-crm-products-rigth").css("max-width", "none");
+        $(".card-crm-products-rigth").css("padding", "0");
+        $(".card-crm-products-left").css("padding", "0");
+        $(".alert-crm").css("padding", ".75rem 1.25rem");
     }
 
     // TABLES
 
 
 
-    $(function () {
-        $("#example1").DataTable({
-            "responsive": true, "lengthChange": false, "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-        });
-    });
+    
+    $("#example1").DataTable({
+        "paging": true,
+        "responsive": true, 
+        "lengthChange": false,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "buttons": ["colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
     // ADMIN
 

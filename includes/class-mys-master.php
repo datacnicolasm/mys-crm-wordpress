@@ -51,6 +51,8 @@ class CRM_HUB_MYS_Master
      */
     public function cargar_clases()
     {
+        require_once CRM_HUB_MYS_DIR . 'includes/class-mys-api.php';
+
         /**
          * Clase de cargador para los hooks de Wordpress
          */

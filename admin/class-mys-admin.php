@@ -25,7 +25,7 @@ class CRM_HUB_MYS_Admin {
         $this->plugin_name = $plugin_name;
         $this->version = $version;  
         $this->menu_admin = new CRM_HUB_MYS_Menus();
-        $this->crud_db = new CRM_HUB_MYS_CRUD_DB();
+        $this->crud_db = new MYS_CRUD_DB();
         
     }
     
@@ -92,7 +92,7 @@ class CRM_HUB_MYS_Admin {
             'object_ajax',
             [
                 'url' => admin_url('admin-ajax.php'),
-                'token' => wp_create_nonce('mys_token')
+                'token' => wp_create_nonce('crm_token')
             ]
         );
         
