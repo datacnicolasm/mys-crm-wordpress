@@ -8,12 +8,6 @@ try {
         );
 
         $products = json_decode(CRM_HUB_API::POST("product", $parametros), true)["data"];
-
-        //echo '<pre>';
-        //var_dump($products[0]);
-        //var_dump($products[0]["nom_ref"]);
-        //var_dump(wc_get_product());
-        //echo '</pre>';
     };
 } catch (Exception $e) {
     echo 'Excepción capturada: ',  $e->getMessage(), "\n";
@@ -47,16 +41,31 @@ if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" href="#tickets" data-toggle="tab">Tickets</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#stock" data-toggle="tab">Saldos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#invoices" data-toggle="tab">Facturas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#purchases" data-toggle="tab">Compras</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#data" data-toggle="tab">Data</a></li>
                 </ul>
-            </div><!-- /.card-header -->
+            </div>
             <div class="card-body">
                 <div class="tab-content">
                     <div class="active tab-pane" id="tickets">
                         <!-- Ticket -->
                         <div class="card-body p-0">
-                            <table class="table table-bordered">
+                            <?php
+                            try {
+
+                                $sku_product = $products[0]["cod_ref"];
+                                $parametros = array(
+                                    'sku' => $sku_product
+                                );
+                                $tickets = json_decode(CRM_HUB_API::POST("ticketProduct", $parametros), true)["data"];
+                                
+                            } catch (Exception $e) {
+                                echo 'Excepción capturada: ',  $e->getMessage(), "\n";
+                            }
+                            ?>
+                            <table id="tickets-product" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th class="text-center" style="width: 20px">ID</th>
@@ -64,171 +73,87 @@ if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
                                         <th class="text-center">Tipo de ticket</th>
                                         <th class="text-center">Cliente</th>
                                         <th class="text-center">Estado</th>
-                                        <th class="text-center" style="width: 100px">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Update software</td>
-                                        <td>Update software</td>
-                                        <td>Update software</td>
-                                        <td>Update software</td>
-                                        <td>Update software</td>
-                                    </tr>
+                                    <?php
+                                    foreach ($tickets as $ticket) {
+                                        echo "<tr>";
+                                        echo '<td>' . esc_html($ticket['idreg']) . '</td>';
+
+                                        echo '<td>';
+                                        $date = new DateTimeImmutable($ticket['fecha_aded']);
+                                        echo $date->format('d-m-Y h:i');
+                                        echo '</td>';
+
+                                        echo '<td>';
+                                        echo '<a href="';
+                                        echo get_admin_url();
+                                        echo 'admin.php?page=mys_crm_hub&sub-page=page-ticket&id-ticket=' . $ticket['idreg'];
+                                        echo '" target="_blank">';
+                                        echo esc_html($ticket['type']['name_type']);
+                                        echo '</a>';
+                                        echo '</td>';
+
+                                        echo '<td>';
+                                        echo esc_html($ticket['customer']['nom_ter']);
+                                        echo '</td>';
+
+                                        switch ($ticket['cod_estado']) {
+                                            case '0':
+                                                echo '<td>';
+                                                echo '<span class="badge bg-danger">Pendiente</span>';
+                                                echo '</td>';
+                                                break;
+                                            case '1':
+                                                echo '<td>';
+                                                echo '<span class="badge bg-warning">En proceso</span>';
+                                                echo '</td>';
+                                                break;
+                                            case '2':
+                                                echo '<td>';
+                                                echo '<span class="badge bg-success">Listo</span>';
+                                                echo '</td>';
+                                                break;
+                                        }
+                                        echo "</tr>";
+                                    }
+                                    ?>
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th class="text-center" style="width: 20px">ID</th>
+                                        <th class="text-center">Fecha</th>
+                                        <th class="text-center">Tipo de ticket</th>
+                                        <th class="text-center">Cliente</th>
+                                        <th class="text-center">Estado</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
-                    <!-- /.tab-pane -->
-                    <div class="tab-pane" id="timeline">
-                        <!-- The timeline -->
-                        <div class="timeline timeline-inverse">
-                            <!-- timeline time label -->
-                            <div class="time-label">
-                                <span class="bg-danger">
-                                    10 Feb. 2014
-                                </span>
-                            </div>
-                            <!-- /.timeline-label -->
-                            <!-- timeline item -->
-                            <div>
-                                <i class="fas fa-envelope bg-primary"></i>
 
-                                <div class="timeline-item">
-                                    <span class="time"><i class="far fa-clock"></i> 12:05</span>
-
-                                    <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
-
-                                    <div class="timeline-body">
-                                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
-                                        weebly ning heekya handango imeem plugg dopplr jibjab, movity
-                                        jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
-                                        quora plaxo ideeli hulu weebly balihoo...
-                                    </div>
-                                    <div class="timeline-footer">
-                                        <a href="#" class="btn btn-primary btn-sm">Read more</a>
-                                        <a href="#" class="btn btn-danger btn-sm">Delete</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- END timeline item -->
-                            <!-- timeline item -->
-                            <div>
-                                <i class="fas fa-user bg-info"></i>
-
-                                <div class="timeline-item">
-                                    <span class="time"><i class="far fa-clock"></i> 5 mins ago</span>
-
-                                    <h3 class="timeline-header border-0"><a href="#">Sarah Young</a> accepted your friend request
-                                    </h3>
-                                </div>
-                            </div>
-                            <!-- END timeline item -->
-                            <!-- timeline item -->
-                            <div>
-                                <i class="fas fa-comments bg-warning"></i>
-
-                                <div class="timeline-item">
-                                    <span class="time"><i class="far fa-clock"></i> 27 mins ago</span>
-
-                                    <h3 class="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-
-                                    <div class="timeline-body">
-                                        Take me to your leader!
-                                        Switzerland is small and neutral!
-                                        We are more like Germany, ambitious and misunderstood!
-                                    </div>
-                                    <div class="timeline-footer">
-                                        <a href="#" class="btn btn-warning btn-flat btn-sm">View comment</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- END timeline item -->
-                            <!-- timeline time label -->
-                            <div class="time-label">
-                                <span class="bg-success">
-                                    3 Jan. 2014
-                                </span>
-                            </div>
-                            <!-- /.timeline-label -->
-                            <!-- timeline item -->
-                            <div>
-                                <i class="fas fa-camera bg-purple"></i>
-
-                                <div class="timeline-item">
-                                    <span class="time"><i class="far fa-clock"></i> 2 days ago</span>
-
-                                    <h3 class="timeline-header"><a href="#">Mina Lee</a> uploaded new photos</h3>
-
-                                    <div class="timeline-body">
-                                        <img src="https://placehold.it/150x100" alt="...">
-                                        <img src="https://placehold.it/150x100" alt="...">
-                                        <img src="https://placehold.it/150x100" alt="...">
-                                        <img src="https://placehold.it/150x100" alt="...">
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- END timeline item -->
-                            <div>
-                                <i class="far fa-clock bg-gray"></i>
-                            </div>
-                        </div>
+                    <div class="tab-pane" id="stock">
+                        <!-- Saldos -->
+                        <div class="card-body p-0"></div>
                     </div>
-                    <!-- /.tab-pane -->
-
-                    <div class="tab-pane" id="settings">
-                        <form class="form-horizontal">
-                            <div class="form-group row">
-                                <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-                                <div class="col-sm-10">
-                                    <input type="email" class="form-control" id="inputName" placeholder="Name">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                                <div class="col-sm-10">
-                                    <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputName2" placeholder="Name">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
-                                <div class="col-sm-10">
-                                    <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="offset-sm-2 col-sm-10">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="offset-sm-2 col-sm-10">
-                                    <button type="submit" class="btn btn-danger">Submit</button>
-                                </div>
-                            </div>
-                        </form>
+                    
+                    <div class="tab-pane" id="invoices">
+                        <!-- Facturas -->
+                        <div class="card-body p-0"></div>
                     </div>
-                    <!-- /.tab-pane -->
+                    
+                    <div class="tab-pane" id="purchases">
+                        <!-- Compras -->
+                        <div class="card-body p-0"></div>
+                    </div>
+
+                    <div class="tab-pane" id="data">
+                        <!-- Datos -->
+                        <div class="card-body p-0"></div>
+                    </div>
                 </div>
-                <!-- /.tab-content -->
-            </div><!-- /.card-body -->
+            </div>
         </div>
     </div>
 
@@ -260,14 +185,14 @@ if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
                 $reg_ecommerce = false;
 
                 if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
-                    echo '<div class="alert alert-warning text-center alert-crm">';
-                    echo "Sin registro en E-commerce";
+                    echo '<div class="text-center alert-crm">';
+                    echo '<span class="badge bg-warning">Sin registro en E-commerce</span>';
                     echo '</div>';
                 } else {
                     $reg_ecommerce = true;
                     $product_wc = wc_get_product(wc_get_product_id_by_sku($products[0]["cod_ref"]));
-                    echo '<div class="alert alert-success text-center alert-crm">';
-                    echo 'Registrado en e-commerce';
+                    echo '<div class="text-center alert-crm">';
+                    echo '<span class="badge bg-success">Registrado en e-commerce</span>';
                     echo '</div>';
                 }
 

@@ -26,17 +26,32 @@
                                 if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'productos') {
                                     echo '<h1 class="m-0">Productos</h1>';
                                 };
+                                if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-product') {
+                                    echo '<h1 class="m-0">Detalle de producto</h1>';
+                                };
+                                if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-ticket') {
+                                    echo '<h1 class="m-0">Detalle de ticket</h1>';
+                                };
                                 ?>
                             </div><!-- /.col -->
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
                                     <?php
+                                    echo '<li class="breadcrumb-item"><a href="';
+                                    echo get_admin_url() . 'admin.php?page=mys_crm_hub';
+                                    echo '">Home</a></li>';
+
                                     if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'clientes') {
                                         echo '<li class="breadcrumb-item active">Clientes</li>';
                                     };
                                     if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'productos') {
                                         echo '<li class="breadcrumb-item active">Productos</li>';
+                                    };
+                                    if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-product') {
+                                        echo '<li class="breadcrumb-item active">Detalle de producto</li>';
+                                    };
+                                    if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-ticket') {
+                                        echo '<li class="breadcrumb-item active">Detalle de ticket</li>';
                                     };
                                     ?>
                                 </ol>
@@ -55,12 +70,16 @@
                             require_once 'mys-admin-customers.php'; 
                         };
                         if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'productos') {
-                            //Data Products
+                            //Data product list
                             require_once 'mys-admin-products.php';
                         };
                         if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-product') {
-                            //Data Products
+                            //Data of a product
                             require_once 'mys-admin-page-product.php';
+                        };
+                        if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-ticket') {
+                            //Data of a product
+                            require_once 'mys-admin-page-ticket.php';
                         };
                         ?>
 

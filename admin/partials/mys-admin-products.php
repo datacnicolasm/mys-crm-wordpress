@@ -7,7 +7,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <table id="example1" class="table table-bordered table-hover">
+                <table id="products-page" class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>Cod ref</th>
