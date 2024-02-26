@@ -25,19 +25,9 @@ if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
 <div class="row">
     <!-- Columna de informacion del producto -->
     <div class="col-md-8">
-        <!-- Columna de botones -->
-        <div class="card card-primary card-outline card-crm-products-rigth">
-            <div class="card-body card-buttons-product">
-                <a class="btn btn-app bg-danger">
-                    <i class="fas fa-edit"></i> Editar
-                </a>
-                <a class="btn btn-app bg-danger">
-                    <i class="fas fa-file"></i> Ticket
-                </a>
-            </div>
-        </div>
+
         <!-- Columna de informacion -->
-        <div class="card card-primary card-outline card-crm-products-rigth">
+        <div class="card card-maroon card-outline card-crm-products-rigth">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" href="#tickets" data-toggle="tab">Tickets</a></li>
@@ -161,7 +151,7 @@ if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
     <div class="col-md-4">
 
         <!-- Imagen del producto -->
-        <div class="card card-primary card-outline card-crm-products-left">
+        <div class="card card-maroon card-outline card-crm-products-left">
             <div class="card-body">
                 <div class="text-center">
                     <?php

@@ -35,7 +35,7 @@ class CRM_HUB_MYS_Admin {
     public function enqueue_styles() {
         
 		wp_enqueue_style( $this->plugin_name, CRM_HUB_MYS_PLUGIN_URL . '/admin/css/bc-admin.css', array(), $this->version, 'all' );
-        wp_enqueue_style( 'GoogleFont', 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback', array(), $this->version, 'all' );
+        //wp_enqueue_style( 'GoogleFont', 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback', array(), $this->version, 'all' );
         wp_enqueue_style( 'FontAwesome', CRM_HUB_MYS_PLUGIN_URL . '/admin/plugins/fontawesome-free/css/all.min.css', array(), $this->version, 'all' );
         wp_enqueue_style( 'Ionicons', 'https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css', array(), $this->version, 'all' );
         wp_enqueue_style( 'TempusdominusBootstrap4', CRM_HUB_MYS_PLUGIN_URL . '/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css', array(), $this->version, 'all' );
