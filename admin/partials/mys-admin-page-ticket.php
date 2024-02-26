@@ -8,6 +8,9 @@ try {
         );
 
         $ticket = json_decode(CRM_HUB_API::POST("ticket", $parametros), true)["data"];
+        //echo '<pre>';
+        //var_dump($ticket[0]);
+        //echo '</pre>';
     };
 } catch (Exception $e) {
     echo 'Excepción capturada: ',  $e->getMessage(), "\n";
@@ -21,9 +24,9 @@ try {
 
         <!-- Imagen del producto -->
         <div class="card card-maroon card-outline card-crm-products-left">
-            <div class="card-body">
+            <div class="card-body" id="card-ticket-form">
                 <h4 class="text-center"><?php echo esc_html($ticket[0]['title_ticket']); ?></h4>
-                <div class="text-center mb-2">
+                <div class="text-center mb-2" id="badge-estado">
                     <?php
                     switch ($ticket[0]['cod_estado']) {
                         case '0':
@@ -52,10 +55,26 @@ try {
                             </div>
                             <div class="col-9">
                                 <div class="form-group m-0">
-                                    <select class="form-control-sm custom-select rounded-1" width="300px">
-                                        <option>Pendiente</option>
-                                        <option>En proceso</option>
-                                        <option>Listo</option>
+                                    <select name="cod_estado" id="cod_estado" class="form-control-sm custom-select rounded-1" width="300px">
+                                        <?php
+                                        switch ($ticket[0]['cod_estado']) {
+                                            case '0':
+                                                echo '<option value="0" selected>Pendiente</option>';
+                                                echo '<option value="1">En proceso</option>';
+                                                echo '<option value="2">Listo</option>';
+                                                break;
+                                            case '1':
+                                                echo '<option value="0">Pendiente</option>';
+                                                echo '<option value="1" selected>En proceso</option>';
+                                                echo '<option value="2">Listo</option>';
+                                                break;
+                                            case '2':
+                                                echo '<option value="0">Pendiente</option>';
+                                                echo '<option value="1">En proceso</option>';
+                                                echo '<option value="2" selected>Listo</option>';
+                                                break;
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
@@ -68,7 +87,7 @@ try {
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
-                                    <textarea class="form-control" rows="5"><?php echo trim($ticket[0]['des_ticket']) ?></textarea>
+                                    <textarea name="des_ticket" id="des_ticket" class="form-control" rows="5"><?php echo trim($ticket[0]['des_ticket']) ?></textarea>
                                 </div>
                             </div>
                         </div>
@@ -80,22 +99,37 @@ try {
                             </div>
                             <div class="col-3">
                                 <?php
-                                echo '<input type="text" class="form-control rounded-1" value="';
+                                echo '<input name="cod_mer" id="cod_mer" type="text" class="form-control rounded-1" value="';
                                 echo esc_attr($ticket[0]['user']['cod_mer']);
                                 echo '">';
                                 ?>
                             </div>
                             <div class="col-9">
                                 <?php
-                                echo '<input type="text" class="form-control rounded-1" value="';
+                                echo '<input name="nom_mer" id="nom_mer" type="text" class="form-control rounded-1" value="';
                                 echo esc_attr($ticket[0]['user']['nom_mer']);
                                 echo '" disabled>';
                                 ?>
                             </div>
+                            <div class="invalid-feedback error-cod-mer ml-2">
+                                El codigo de vendedor no existe.
+                            </div>
+                            <div class="valid-feedback success-cod-mer ml-2">
+                                El codigo de vendedor es correcto.
+                            </div>
                         </div>
                     </li>
+                    <div class="onprocess-form">
+                        <i class="fas fa-3x fa-sync-alt"></i>
+                    </div>
                 </ul>
-                <a class="btn bg-navy btn-block"><b>Actualizar</b></a>
+                <button data-idreg="<?php echo esc_attr($ticket[0]['idreg']); ?>" id="save-data-ticket" class="btn bg-navy btn-block" type="submit"><b>Actualizar</b></button>
+                <div class="valid-feedback success-save-ticket ml-2">
+                    El ticket se ha actualizado.
+                </div>
+                <div class="invalid-feedback error-save-ticket ml-2">
+                    El ticket <b>NO</b> se ha actualizado.
+                </div>
             </div>
         </div>
 
