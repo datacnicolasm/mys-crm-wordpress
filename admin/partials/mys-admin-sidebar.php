@@ -39,6 +39,14 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item item-menu-productos">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-folder"></i>
+                        <p>
+                            Tickets
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

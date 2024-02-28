@@ -1,3 +1,6 @@
+/*
+Estilos de pagina ticket
+*/
 .onprocess-form {
     display: none;
     height: 100%;
@@ -14,7 +17,7 @@
     z-index: 50;
 }
 
-.onprocess-form i{
+.onprocess-form i {
     animation: cragando 5s infinite;
 }
 
@@ -22,4 +25,40 @@
     50% {
         transform: rotate(180deg);
     }
+}
+
+/*
+Estilos de pagina customer
+*/
+.widget-customer .widget-customer-header {
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    height: 150px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.widget-customer .widget-customer-username {
+    font-size: 25px;
+    font-weight: 300;
+    margin-bottom: 0;
+    margin-top: 0;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+}
+
+.widget-customer .widget-customer-image {
+    left: 50%;
+    margin-left: -45px;
+    position: absolute;
+    top: 100px;
+}
+
+.widget-customer .widget-customer-image > img{
+    border: 3px solid #fff;
+    height: auto;
+    width: 90px;
+}
+
+.widget-customer .card-footer {
+    padding-top: 50px;
 }

@@ -26,6 +26,11 @@ try {
         <div class="card card-maroon card-outline card-crm-products-left">
             <div class="card-body" id="card-ticket-form">
                 <h4 class="text-center"><?php echo esc_html($ticket[0]['title_ticket']); ?></h4>
+                <?php
+                echo '<p class="text-center mb-1">';
+                echo esc_html($ticket[0]['type']['name_type']);
+                echo '</p>';
+                ?>
                 <div class="text-center mb-2" id="badge-estado">
                     <?php
                     switch ($ticket[0]['cod_estado']) {
@@ -143,7 +148,7 @@ try {
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" href="#description" data-toggle="tab">Descripcion</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#invoices" data-toggle="tab">Saldos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
                 </ul>
             </div>
             <div class="card-body">
@@ -152,6 +157,7 @@ try {
                     <div class="tab-pane" id="description">
                         <!-- Descripcion -->
                         <div class="card-body p-0">
+                            <!-- Informacion del cliente -->
                             <div class="row mb-2">
                                 <div class="col-12 pb-2">
                                     <span class="font-weight-bold mb-2">Informacion del cliente</span>
@@ -193,10 +199,70 @@ try {
                                     <span><?php echo esc_html($ticket[0]['customer']['email']) ?></span>
                                 </div>
                             </div>
+
+                            <!-- Informacion del producto -->
+                            <?php
+                            try {
+                                
+                                $sku_product = $ticket[0]['cod_ref'];
+
+                                $parametros = array(
+                                    'sku' => $sku_product
+                                );
+
+                                $product = json_decode(CRM_HUB_API::POST("product", $parametros), true)["data"][0];
+
+                            } catch (Exception $e) {
+                                echo 'Excepción capturada: ',  $e->getMessage(), "\n";
+                            }
+                            
+                            ?>
+                            
+                            <div class="row mb-2">
+                                <div class="col-12 pb-2">
+                                    <span class="font-weight-bold mb-2">Informacion del producto</span>
+                                </div>
+                                <div class="col-3">
+                                    <span class="text-muted">Cod. Referencia:</span>
+                                </div>
+                                <div class="col-9">
+                                    <span><?php echo esc_html($product['cod_ref']) ?></span>
+                                </div>
+                                <div class="col-3">
+                                    <span class="text-muted">Nombre:</span>
+                                </div>
+                                <div class="col-9">
+                                    <span><?php echo esc_html($product['nom_ref']) ?></span>
+                                </div>
+                                <div class="col-3">
+                                    <span class="text-muted">Marca:</span>
+                                </div>
+                                <div class="col-9">
+                                    <span><?php echo esc_html($product['brand']['Nom_mar']) ?></span>
+                                </div>
+                                <div class="col-3">
+                                    <span class="text-muted">Linea:</span>
+                                </div>
+                                <div class="col-9">
+                                    <span><?php echo esc_html($product['type']['nom_tip']) ?></span>
+                                </div>
+                                <div class="col-3">
+                                    <span class="text-muted">Grupo:</span>
+                                </div>
+                                <div class="col-9">
+                                    <span><?php echo esc_html($product['group']['nom_gru']) ?></span>
+                                </div>
+                                <div class="col-3">
+                                    <span class="text-muted">Precio de venta:</span>
+                                </div>
+                                <div class="col-9">
+                                    <span><?php echo '$ '.esc_html(number_format(floatval($product['val_ref']), 0, ',', '.')) ?></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="tab-pane" id="invoices">
+                    <div class="tab-pane" id="timeline">
                         <!-- Facturas -->
                         <div class="card-body p-0"></div>
                     </div>

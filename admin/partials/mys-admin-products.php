@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12">
 
-        <div class="card card-crm-motos">
+        <div class="card card-crm-motos card-maroon card-outline">
             <div class="card-header">
                 <h3 class="card-title">Listado de referencias de repuestos y accesorios.</h3>
             </div>

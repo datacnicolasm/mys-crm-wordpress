@@ -32,6 +32,9 @@
                                 if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-ticket') {
                                     echo '<h1 class="m-0">Detalle de ticket</h1>';
                                 };
+                                if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-customer') {
+                                    echo '<h1 class="m-0">Detalle de cliente</h1>';
+                                };
                                 ?>
                             </div><!-- /.col -->
                             <div class="col-sm-6">
@@ -52,6 +55,9 @@
                                     };
                                     if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-ticket') {
                                         echo '<li class="breadcrumb-item active">Detalle de ticket</li>';
+                                    };
+                                    if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-customer') {
+                                        echo '<li class="breadcrumb-item active">Detalle de cliente</li>';
                                     };
                                     ?>
                                 </ol>
@@ -80,6 +86,10 @@
                         if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-ticket') {
                             //Data of a product
                             require_once 'mys-admin-page-ticket.php';
+                        };
+                        if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-customer') {
+                            //Data of a customer
+                            require_once 'mys-admin-page-customer.php';
                         };
                         ?>
 
