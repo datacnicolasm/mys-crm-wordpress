@@ -62,3 +62,19 @@ Estilos de pagina customer
 .widget-customer .card-footer {
     padding-top: 50px;
 }
+
+/*
+Formulario para crear ticket
+*/
+.form-create-ticket .alert-success{
+    display: none;
+}
+
+.form-create-ticket .alert-error{
+    display: none;
+}
+
+.modal-body .table-content-referencias{
+    overflow-y: scroll;
+    max-height: 460px;
+}

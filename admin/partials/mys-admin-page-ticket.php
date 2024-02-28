@@ -35,13 +35,16 @@ try {
                     <?php
                     switch ($ticket[0]['cod_estado']) {
                         case '0':
-                            echo '<span class="badge bg-danger">Pendiente</span>';
+                            echo '<span class="badge bg-info">Pendiente</span>';
                             break;
                         case '1':
                             echo '<span class="badge bg-warning">En proceso</span>';
                             break;
                         case '2':
-                            echo '<span class="badge bg-success">Listo</span>';
+                            echo '<span class="badge bg-success">Vendido</span>';
+                            break;
+                        case '2':
+                            echo '<span class="badge bg-danger">Venta perdidá</span>';
                             break;
                     }
                     ?>
@@ -67,16 +70,25 @@ try {
                                                 echo '<option value="0" selected>Pendiente</option>';
                                                 echo '<option value="1">En proceso</option>';
                                                 echo '<option value="2">Listo</option>';
+                                                echo '<option value="3">Venta perdidá</option>';
                                                 break;
                                             case '1':
                                                 echo '<option value="0">Pendiente</option>';
                                                 echo '<option value="1" selected>En proceso</option>';
                                                 echo '<option value="2">Listo</option>';
+                                                echo '<option value="3">Venta perdidá</option>';
                                                 break;
                                             case '2':
                                                 echo '<option value="0">Pendiente</option>';
                                                 echo '<option value="1">En proceso</option>';
-                                                echo '<option value="2" selected>Listo</option>';
+                                                echo '<option value="2" selected>Vnedido</option>';
+                                                echo '<option value="3">Venta perdidá</option>';
+                                                break;
+                                            case '3':
+                                                echo '<option value="0">Pendiente</option>';
+                                                echo '<option value="1">En proceso</option>';
+                                                echo '<option value="2">Listo</option>';
+                                                echo '<option value="3" selected>Venta perdidá</option>';
                                                 break;
                                         }
                                         ?>
@@ -113,6 +125,33 @@ try {
                                 <?php
                                 echo '<input name="nom_mer" id="nom_mer" type="text" class="form-control rounded-1" value="';
                                 echo esc_attr($ticket[0]['user']['nom_mer']);
+                                echo '" disabled>';
+                                ?>
+                            </div>
+                            <div class="invalid-feedback error-cod-mer ml-2">
+                                El codigo de vendedor no existe.
+                            </div>
+                            <div class="valid-feedback success-cod-mer ml-2">
+                                El codigo de vendedor es correcto.
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-12 pb-2">
+                                <span class="text-muted">Creado por:</span>
+                            </div>
+                            <div class="col-3">
+                                <?php
+                                echo '<input name="cod_creator" id="cod_creator" type="text" class="form-control rounded-1" value="';
+                                echo esc_attr($ticket[0]['creator']['cod_mer']);
+                                echo '" disabled>';
+                                ?>
+                            </div>
+                            <div class="col-9">
+                                <?php
+                                echo '<input name="nom_creator" id="nom_creator" type="text" class="form-control rounded-1" value="';
+                                echo esc_attr($ticket[0]['creator']['nom_mer']);
                                 echo '" disabled>';
                                 ?>
                             </div>

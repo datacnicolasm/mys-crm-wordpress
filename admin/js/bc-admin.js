@@ -34,8 +34,21 @@ jQuery(document).ready(function ($) {
                 }
             });
         };
-        static save_data_new_ticket() {
+        static save_data_new_ticket(dataSend) {
             $(".onprocess-form").css("display", "flex");
+
+            $.ajax({
+                url: this.url + "tickets",
+                method: 'post',
+                dataType: 'json',
+                data: dataSend,
+                success: function (data) {
+                    ticketClass.save_data_new_ticket_success();
+                },
+                error: function (xhr, status) {
+                    ticketClass.save_data_new_ticket_error();
+                }
+            });
         };
         static validate_data_ticket() {
             var estado = $("#cod_estado").val();
@@ -52,10 +65,10 @@ jQuery(document).ready(function ($) {
             var dataSend = {
                 cod_type: $("#cod_type").val(),
                 cod_ter: $("#cod_ter").val(),
-                title_ticket: $("title_ticket").val(),
-                des_ticket: $("des_ticket").val(),
-                cod_user: $("cod_mer").val(),
-                cod_ref: $("cod_ref").val(),
+                title_ticket: $("#title_ticket").val(),
+                des_ticket: $("#des_ticket").val(),
+                cod_user: $("#cod_mer").val(),
+                cod_ref: $("#cod_ref").val(),
                 cod_pipeline: "1",
                 cod_estado: "0"
             }
@@ -146,13 +159,16 @@ jQuery(document).ready(function ($) {
 
             switch (data.cod_estado) {
                 case '0':
-                    $("#badge-estado").html('<span class="badge bg-danger">Pendiente</span>');
+                    $("#badge-estado").html('<span class="badge bg-info">Pendiente</span>');
                     break;
                 case '1':
                     $("#badge-estado").html('<span class="badge bg-warning">En proceso</span>');
                     break;
                 case '2':
-                    $("#badge-estado").html('<span class="badge bg-success">Listo</span>');
+                    $("#badge-estado").html('<span class="badge bg-success">Vendido</span>');
+                    break;
+                case '3':
+                    $("#badge-estado").html('<span class="badge bg-danger">Venta perdidá</span>');
                     break;
             }
         };
@@ -161,7 +177,112 @@ jQuery(document).ready(function ($) {
             $(".success-save-ticket").hide();
             $(".error-save-ticket").show();
         };
+        static save_data_new_ticket_success(data) {
+            $(".onprocess-form").css("display", "none");
+            $(".alert-error").hide();
+            $(".alert-success").show();
+
+            setTimeout(function () {
+                $(".alert-success").hide("");
+                $("#cod_ter").val("");
+                $("#title_ticket").val("");
+                $("#des_ticket").val("");
+                $("#cod_mer").val("");
+                $("#nom_mer").val("");
+                $("#cod_ref").val("");
+                $("#nom_ref").val("");
+                $(".error-cod-ref").hide();
+                $(".success-cod-ref").hide();
+                $(".modal-dialog .close").trigger("click");
+            }, 3000);
+        };
+        static save_data_new_ticket_error() {
+            $(".onprocess-form").css("display", "none");
+            $(".alert-success").hide();
+            $(".alert-error").show();
+        };
     }
+
+    class tableRefsTicket {
+        constructor() {
+        }
+
+        static selectorHTML = "#table-references-ticket";
+
+        static initTableRef() {
+            $("#table-references-ticket tbody tr").each(function (index, element) {
+
+                $(element).find('.cod_ref').on("keydown", null, [index, element], function (event) {
+
+                    if (
+                        event.originalEvent.keyCode == 46
+                    ) {
+                        event.data[1].remove()
+                        tableRefsTicket.initTableRef();
+                        tableRefsTicket.selectRowEdit();
+                    }
+                });
+
+                $(element).find('.val_uni').on("keypress", null, [index, element], function (event) {
+
+                    var keyNumber = new Array(48,49,50,51,52,53,54,55,56,57);
+                    
+                    if (keyNumber.indexOf(event.originalEvent.keyCode) == -1) {
+                        event.preventDefault();
+                    }
+
+                    if (
+                        event.originalEvent.keyCode == 13 &&
+                        $("#table-references-ticket tbody tr").length == index + 1 &&
+                        $(element).find(".cod_ref").val().trim().length != 0
+                    ) {
+                        event.preventDefault();
+                        var stringHtml = '<tr class="row-form row-2">';
+                        stringHtml += '<td>';
+                        stringHtml += '<input type="text" class="form-control rounded-1 text-left cod_ref" value="">'
+                        stringHtml += '</td>'
+                        stringHtml += '<td>'
+                        stringHtml += '<input type="text" class="form-control rounded-1 text-left nom_ref" value="" disabled>'
+                        stringHtml += '</td>'
+                        stringHtml += '<td>'
+                        stringHtml += '<input type="text" class="form-control rounded-1 text-center cantidad" value="1">'
+                        stringHtml += '</td>'
+                        stringHtml += '<td>'
+                        stringHtml += '<input type="text" class="form-control rounded-1 text-right val_uni" value="0">'
+                        stringHtml += '</td>'
+                        stringHtml += '</tr>'
+                        var resultRow = $(stringHtml).appendTo("#table-references-ticket tbody");
+                        tableRefsTicket.initTableRef();
+                        tableRefsTicket.selectRowEdit();
+                    }
+
+
+                });
+            });
+        };
+
+        static selectRowEdit(){
+            $("#table-references-ticket tbody tr").each(function (index, element){
+                $(element).find("input")
+                    .on("focus", null, [index, element], function (event){
+                        
+                        $(event.data[1]).addClass("bg-gray")
+                        
+                    })
+                    .on("focusout", null, [index, element], function (event){
+                        
+                        $(event.data[1]).removeClass("bg-gray")
+
+                    })
+            })
+        }
+
+        change_cod_ref() {
+            console.log("evento de ref")
+        }
+    }
+
+    tableRefsTicket.initTableRef("#table-references-ticket");
 
     var arrayDeCadenas = window.location.href.split("?")[1].split("&");
 
@@ -182,6 +303,10 @@ jQuery(document).ready(function ($) {
             $(".item-menu-productos a").attr("href", window.location.href.split("?")[0] + "?" + arrayDeCadenas[0] + "&sub-page=productos");
         }
 
+        if (arrayDeCadenas.indexOf('sub-page=tickets') == -1) {
+            $(".item-menu-tickets a").attr("href", window.location.href.split("?")[0] + "?" + arrayDeCadenas[0] + "&sub-page=tickets");
+        }
+
         $(".card-crm-motos").css("margin-top", "0");
         $(".card-crm-motos").css("padding", "0");
         $(".card-crm-motos").css("max-width", "inherit");
@@ -195,42 +320,74 @@ jQuery(document).ready(function ($) {
         $(".card-buttons-product .btn").css("margin", "0");
 
         //$("").css("","");
-        $(".form-create-ticket").css("max-width", "600px");
+        $(".form-create-ticket").css("max-width", "1300px");
         $(".form-create-ticket").css("margin-top", "4rem");
         $(".form-create-ticket select").css("max-width", "inherit");
 
-        $("#tickets-product").DataTable({
-            "paging": true,
-            "responsive": true,
-            "lengthChange": false,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "buttons": ["colvis"]
-        }).buttons().container().appendTo('#tickets-product_wrapper .col-md-6:eq(0)');
+        if (arrayDeCadenas.indexOf('sub-page=page-product') != -1) {
+            $("#tickets-product").DataTable({
+                "paging": true,
+                "responsive": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "buttons": ["colvis"]
+            }).buttons().container().appendTo('#tickets-product_wrapper .col-md-6:eq(0)');
+        }
 
-        $("#products-page").DataTable({
-            "paging": true,
-            "responsive": true,
-            "lengthChange": false,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "buttons": ["colvis"]
-        }).buttons().container().appendTo('#products-page_wrapper .col-md-6:eq(0)');
+        if (arrayDeCadenas.indexOf('sub-page=productos') != -1) {
+            $("#products-page").DataTable({
+                "paging": true,
+                "responsive": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "buttons": ["colvis"]
+            }).buttons().container().appendTo('#products-page_wrapper .col-md-6:eq(0)');
+        }
 
-        $("#customer-page").DataTable({
-            "paging": true,
-            "responsive": true,
-            "lengthChange": false,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "buttons": ["colvis"]
-        }).buttons().container().appendTo('#customer-page_wrapper .col-md-6:eq(0)');
+        if (arrayDeCadenas.indexOf('sub-page=page-customer') != -1) {
+            $("#tickets-product").DataTable({
+                "paging": true,
+                "responsive": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "buttons": ["colvis"]
+            }).buttons().container().appendTo('#tickets-product_wrapper .col-md-6:eq(0)');
+        }
+
+        if (arrayDeCadenas.indexOf('sub-page=clientes') != -1) {
+            $("#customer-page").DataTable({
+                "paging": true,
+                "responsive": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "buttons": ["colvis"]
+            }).buttons().container().appendTo('#customer-page_wrapper .col-md-6:eq(0)');
+        }
+
+        if (arrayDeCadenas.indexOf('sub-page=tickets') != -1) {
+            $("#ticket-page").DataTable({
+                "paging": true,
+                "responsive": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "buttons": ["colvis"]
+            }).buttons().container().appendTo('#ticket-page_wrapper .col-md-6:eq(0)');
+        }
 
         $("#save-data-ticket").on("click", function (e) {
             e.preventDefault();
@@ -246,7 +403,7 @@ jQuery(document).ready(function ($) {
 
             var validate = ticketClass.validate_data_new_ticket();
             if (validate) {
-                ticketClass.save_data_new_ticket();
+                ticketClass.save_data_new_ticket(validate);
             }
         });
 
@@ -257,10 +414,11 @@ jQuery(document).ready(function ($) {
 
         $("#description").addClass("active");
 
+        $("#tickets").addClass("active");
+
         $("#cod_ref").on("change", function () {
             var cod_mer = $("#cod_ref").val();
             ticketClass.change_cod_ref(cod_mer);
         });
     }
-
 })

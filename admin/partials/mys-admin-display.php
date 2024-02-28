@@ -1,4 +1,21 @@
-<?php $current_user = wp_get_current_user(); ?>
+<?php
+    $current_user = wp_get_current_user();
+
+    try {
+        $parametros = array(
+            'cod_mer' => $current_user->data->cod_siasoft
+        );
+
+        $user_sia = json_decode(CRM_HUB_API::POST("user", $parametros), true)["data"][0];
+        
+    } catch (Exception $e) {
+        echo 'Excepción capturada: ',  $e->getMessage(), "\n";
+    }
+
+    //echo "<pre>";
+    //var_dump($user_sia);
+    //echo "</pre>";
+?>
 
 <div class="wrrap">
 
@@ -26,6 +43,9 @@
                                 if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'productos') {
                                     echo '<h1 class="m-0">Productos</h1>';
                                 };
+                                if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'tickets') {
+                                    echo '<h1 class="m-0">Tickets de clientes</h1>';
+                                };
                                 if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-product') {
                                     echo '<h1 class="m-0">Detalle de producto</h1>';
                                 };
@@ -49,6 +69,9 @@
                                     };
                                     if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'productos') {
                                         echo '<li class="breadcrumb-item active">Productos</li>';
+                                    };
+                                    if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'tickets') {
+                                        echo '<li class="breadcrumb-item active">Tickets de clientes</li>';
                                     };
                                     if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-product') {
                                         echo '<li class="breadcrumb-item active">Detalle de producto</li>';
@@ -78,6 +101,10 @@
                         if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'productos') {
                             //Data product list
                             require_once 'mys-admin-products.php';
+                        };
+                        if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'tickets') {
+                            //Data tickets list
+                            require_once 'mys-admin-tickets.php';
                         };
                         if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-product') {
                             //Data of a product

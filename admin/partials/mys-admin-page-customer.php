@@ -59,116 +59,7 @@ try {
             </div>
         </div>
 
-        <div class="modal fade" id="modal-default">
-            <div class="modal-dialog form-create-ticket">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Crear de ticket</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <!-- Tipo de ticket -->
-                            <div class="col-3 pt-1 pb-2">
-                                <span class="text-muted">Tipo de ticket:</span>
-                            </div>
-                            <div class="col-9 pb-2">
-                                <div class="form-group m-0">
-                                    <select name="cod_type" id="cod_type" class="form-control-sm custom-select rounded-1">
-                                        <?php
-                                        echo '<option value="0" selected>Pendiente</option>';
-                                        echo '<option value="1">En proceso</option>';
-                                        echo '<option value="2">Listo</option>';
-                                        ?>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Cliente -->
-                            <div class="col-3 pt-2">
-                                <span class="text-muted">Cliente:</span>
-                            </div>
-                            <div class="col-3 pb-2">
-                                <?php
-                                echo '<input name="cod_ter" id="cod_ter" type="text" class="form-control rounded-1" value="';
-                                echo esc_attr(trim($customer['cod_ter']));
-                                echo '" disabled>';
-                                ?>
-                            </div>
-                            <div class="col-9 pb-2 offset-md-3">
-                                <?php
-                                echo '<input name="" id="" type="text" class="form-control rounded-1" value="';
-                                echo esc_attr($customer['nom_ter']);
-                                echo '" disabled>';
-                                ?>
-                            </div>
-
-                            <!-- Titulo del ticket -->
-                            <div class="col-3 pt-2">
-                                <span class="text-muted">Titulo:</span>
-                            </div>
-                            <div class="col-9 pb-2">
-                                <textarea name="des_ticket" id="des_ticket" class="form-control" rows="2"></textarea>
-                            </div>
-
-                            <!-- Descripcion del ticket -->
-                            <div class="col-3 pt-2">
-                                <span class="text-muted">Descripcion:</span>
-                            </div>
-                            <div class="col-9 pb-2">
-                                <textarea name="des_ticket" id="des_ticket" class="form-control" rows="4"></textarea>
-                            </div>
-
-                            <!-- Responsable -->
-                            <div class="col-3 pt-2">
-                                <span class="text-muted">Responsable:</span>
-                            </div>
-                            <div class="col-3 pb-2">
-                                <input name="cod_mer" id="cod_mer" type="text" class="form-control rounded-1" value="">
-                            </div>
-                            <div class="col-9 pb-2 offset-md-3">
-                                <input name="nom_mer" id="nom_mer" type="text" class="form-control rounded-1" value="" disabled>
-                                <div class="invalid-feedback error-cod-mer ml-2">
-                                    El codigo de vendedor no existe.
-                                </div>
-                                <div class="valid-feedback success-cod-mer ml-2">
-                                    El codigo de vendedor es correcto.
-                                </div>
-                            </div>
-
-                            <!-- Codigo de referencia -->
-                            <div class="col-3 pt-2">
-                                <span class="text-muted">Cod. referencia:</span>
-                            </div>
-                            <div class="col-3 pb-2">
-                                <input name="cod_ref" id="cod_ref" type="text" class="form-control rounded-1" value="">
-                            </div>
-                            <div class="col-9 pb-2 offset-md-3">
-                                <input name="nom_ref" id="nom_ref" type="text" class="form-control rounded-1" value="" disabled>
-                                <div class="invalid-feedback error-cod-ref ml-2">
-                                    El codigo de referencia no existe.
-                                </div>
-                                <div class="valid-feedback success-cod-ref ml-2">
-                                    El codigo de referencia es correcto.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="onprocess-form">
-                            <i class="fas fa-3x fa-sync-alt"></i>
-                        </div>
-                    </div>
-                    <div class="modal-footer justify-content-between">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button id="create-new-ticket" type="button" class="btn btn-primary">Guardar ticket</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-
+        <?php require_once 'mys-admin-ticket-form.php'; ?>
     </div>
 
     <!-- Columna de informacion del ticket -->
@@ -249,6 +140,7 @@ try {
                                     $tickets = $customer['tickets'];
                                     foreach ($tickets as $ticket) {
                                         echo "<tr>";
+
                                         echo '<td>' . esc_html($ticket['idreg']) . '</td>';
 
                                         echo '<td>';
@@ -272,7 +164,7 @@ try {
                                         switch ($ticket['cod_estado']) {
                                             case '0':
                                                 echo '<td>';
-                                                echo '<span class="badge bg-danger">Pendiente</span>';
+                                                echo '<span class="badge bg-info">Pendiente</span>';
                                                 echo '</td>';
                                                 break;
                                             case '1':
@@ -282,7 +174,12 @@ try {
                                                 break;
                                             case '2':
                                                 echo '<td>';
-                                                echo '<span class="badge bg-success">Listo</span>';
+                                                echo '<span class="badge bg-success">vendido</span>';
+                                                echo '</td>';
+                                                break;
+                                            case '3':
+                                                echo '<td>';
+                                                echo '<span class="badge bg-danger">Venta perdidá</span>';
                                                 echo '</td>';
                                                 break;
                                         }

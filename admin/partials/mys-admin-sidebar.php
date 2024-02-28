@@ -23,8 +23,32 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
+                <?php
+                $clientes = "";
+                $productos = "";
+                $tickets = "";
+                if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'clientes') {
+                    $clientes = "active";
+                };
+                if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'productos') {
+                    $productos = "active";
+                };
+                if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-product') {
+                    $productos = "active";
+                };
+                if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-ticket') {
+                    $tickets = "active";
+                };
+                if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'tickets') {
+                    $tickets = "active";
+                };
+                if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-customer') {
+                    $clientes = "active";
+                };
+                ?>
+
                 <li class="nav-item item-menu-clientes">
-                    <a href="" class="nav-link">
+                    <a href="" class="nav-link <?php echo $clientes ?>">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Clientes
@@ -32,18 +56,35 @@
                     </a>
                 </li>
                 <li class="nav-item item-menu-productos">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link <?php echo $productos ?>">
                         <i class="nav-icon fas fa-barcode"></i>
                         <p>
                             Productos
                         </p>
                     </a>
                 </li>
-                <li class="nav-item item-menu-productos">
-                    <a href="#" class="nav-link">
+                <li class="nav-item item-menu-tickets">
+                    <a href="#" class="nav-link <?php echo $tickets ?>">
                         <i class="nav-icon fas fa-folder"></i>
                         <p>
                             Tickets
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item item-menu-tickets">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-folder"></i>
+                        <p>
+                            Motocicletas
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item item-menu-tickets">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon far fa-envelope"></i>
+                        <p>
+                            Campañas
+                            <span class="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>
