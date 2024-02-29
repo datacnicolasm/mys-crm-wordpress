@@ -21,7 +21,6 @@ try {
                             <th>ID</th>
                             <th>Fecha</th>
                             <th>Tipo de ticket</th>
-                            <th>Referencia</th>
                             <th>Responsable</th>
                             <th>Doc cliente</th>
                             <th>Estado</th>
@@ -46,10 +45,6 @@ try {
                             echo '" target="_blank">';
                             echo esc_html($ticket['type']['name_type']);
                             echo '</a>';
-                            echo '</td>';
-
-                            echo '<td>';
-                            echo esc_html($ticket['cod_ref']);
                             echo '</td>';
 
                             echo '<td>';
@@ -87,7 +82,6 @@ try {
                             <th>ID</th>
                             <th>Fecha</th>
                             <th>Tipo de ticket</th>
-                            <th>Referencia</th>
                             <th>Responsable</th>
                             <th>Doc cliente</th>
                             <th>Estado</th>

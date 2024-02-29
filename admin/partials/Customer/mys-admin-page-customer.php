@@ -1,4 +1,7 @@
 <?php
+/**
+ * Vista de pagina especifica de un cliente
+ */
 try {
     if (isset($_GET["id-customer"])) {
         $id_customer = $_GET["id-customer"];
@@ -59,7 +62,7 @@ try {
             </div>
         </div>
 
-        <?php require_once 'mys-admin-ticket-form.php'; ?>
+        <?php require_once CRM_HUB_MYS_DIR . 'admin/partials/Ticket/mys-admin-ticket-form.php'; ?>
     </div>
 
     <!-- Columna de informacion del ticket -->
@@ -131,7 +134,6 @@ try {
                                         <th class="text-center" style="width: 20px">ID</th>
                                         <th class="text-center">Fecha</th>
                                         <th class="text-center">Tipo de ticket</th>
-                                        <th class="text-center">Referencia</th>
                                         <th class="text-center">Estado</th>
                                     </tr>
                                 </thead>
@@ -155,10 +157,6 @@ try {
                                         echo '" target="_blank">';
                                         echo esc_html($ticket['type']['name_type']);
                                         echo '</a>';
-                                        echo '</td>';
-
-                                        echo '<td>';
-                                        echo esc_html($ticket['cod_ref']);
                                         echo '</td>';
 
                                         switch ($ticket['cod_estado']) {
@@ -192,7 +190,6 @@ try {
                                         <th class="text-center" style="width: 20px">ID</th>
                                         <th class="text-center">Fecha</th>
                                         <th class="text-center">Tipo de ticket</th>
-                                        <th class="text-center">Cliente</th>
                                         <th class="text-center">Estado</th>
                                     </tr>
                                 </tfoot>

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Vista de un producto especifico
+ */
 try {
     if (isset($_GET["id-product"])) {
         $id_product = $_GET["id-product"];

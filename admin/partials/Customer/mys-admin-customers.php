@@ -1,4 +1,7 @@
 <?php
+/**
+ * Vista del listado de clientes
+ */
 try {
     $customers = json_decode(CRM_HUB_API::GET("customers"), true)["data"];
 } catch (Exception $e) {

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Vista de un ticket especifico
+ */
 try {
     if (isset($_GET["id-ticket"])) {
         $id_ticket = $_GET["id-ticket"];
@@ -236,66 +239,6 @@ try {
                                 </div>
                                 <div class="col-9">
                                     <span><?php echo esc_html($ticket[0]['customer']['email']) ?></span>
-                                </div>
-                            </div>
-
-                            <!-- Informacion del producto -->
-                            <?php
-                            try {
-                                
-                                $sku_product = $ticket[0]['cod_ref'];
-
-                                $parametros = array(
-                                    'sku' => $sku_product
-                                );
-
-                                $product = json_decode(CRM_HUB_API::POST("product", $parametros), true)["data"][0];
-
-                            } catch (Exception $e) {
-                                echo 'Excepción capturada: ',  $e->getMessage(), "\n";
-                            }
-                            
-                            ?>
-                            
-                            <div class="row mb-2">
-                                <div class="col-12 pb-2">
-                                    <span class="font-weight-bold mb-2">Informacion del producto</span>
-                                </div>
-                                <div class="col-3">
-                                    <span class="text-muted">Cod. Referencia:</span>
-                                </div>
-                                <div class="col-9">
-                                    <span><?php echo esc_html($product['cod_ref']) ?></span>
-                                </div>
-                                <div class="col-3">
-                                    <span class="text-muted">Nombre:</span>
-                                </div>
-                                <div class="col-9">
-                                    <span><?php echo esc_html($product['nom_ref']) ?></span>
-                                </div>
-                                <div class="col-3">
-                                    <span class="text-muted">Marca:</span>
-                                </div>
-                                <div class="col-9">
-                                    <span><?php echo esc_html($product['brand']['Nom_mar']) ?></span>
-                                </div>
-                                <div class="col-3">
-                                    <span class="text-muted">Linea:</span>
-                                </div>
-                                <div class="col-9">
-                                    <span><?php echo esc_html($product['type']['nom_tip']) ?></span>
-                                </div>
-                                <div class="col-3">
-                                    <span class="text-muted">Grupo:</span>
-                                </div>
-                                <div class="col-9">
-                                    <span><?php echo esc_html($product['group']['nom_gru']) ?></span>
-                                </div>
-                                <div class="col-3">
-                                    <span class="text-muted">Precio de venta:</span>
-                                </div>
-                                <div class="col-9">
-                                    <span><?php echo '$ '.esc_html(number_format(floatval($product['val_ref']), 0, ',', '.')) ?></span>
                                 </div>
                             </div>
                         </div>

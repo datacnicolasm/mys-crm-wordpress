@@ -1,3 +1,8 @@
+<?php
+/**
+ * Vista de listado de productos
+ */
+?>
 <div class="row">
     <div class="col-12">
 

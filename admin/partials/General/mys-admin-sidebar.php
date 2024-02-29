@@ -1,3 +1,8 @@
+<?php
+/**
+ * Barra de navegacion lateral
+ */
+?>
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
@@ -24,6 +29,9 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
                 <?php
+                /**
+                 * Condicional de menu activo
+                 */
                 $clientes = "";
                 $productos = "";
                 $tickets = "";

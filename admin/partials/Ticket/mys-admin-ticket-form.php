@@ -1,16 +1,30 @@
+<?php
+/**
+ * Vista de formulacio para crear ticket
+ */
+?>
 <div class="modal fade" id="modal-default">
     <div class="modal-dialog form-create-ticket">
         <div class="modal-content">
+
+            <!-- Header modal -->
             <div class="modal-header">
                 <h5 class="modal-title">Crear de ticket</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            
+            <!-- Body modal -->
             <div class="modal-body">
                 <div class="row">
+
+                    <!-- Formulario de datos basicos de ticket -->
                     <div class="col-4 border-right">
+
+                        <!-- Formulario para crear ticket -->
                         <div class="row">
+                            
                             <!-- Tipo de ticket -->
                             <div class="col-3 pt-1 pb-2">
                                 <span class="text-muted">Tipo de ticket:</span>
@@ -40,7 +54,7 @@
                             <div class="col-3 pt-2">
                                 <span class="text-muted">Cliente:</span>
                             </div>
-                            <div class="col-3 pb-2">
+                            <div class="col-5 pb-2">
                                 <?php
                                 echo '<input name="cod_ter" id="cod_ter" type="text" class="form-control rounded-1" value="';
                                 echo esc_attr(trim($customer['cod_ter']));
@@ -88,20 +102,20 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <!-- Icono de carga -->
                         <div class="onprocess-form">
                             <i class="fas fa-3x fa-sync-alt"></i>
                         </div>
-                        <div class="alert alert-success mb-0 mt-1 alert-success">
-                            <h5><i class="icon fas fa-check"></i>Información guardada</h5>
-                            El ticket ha sido creado, puedes verlo en el listado de tickets del cliente.
-                        </div>
-                        <div class="alert alert-warning mb-0 mt-1 alert-error">
-                            <h5><i class="icon fas fa-exclamation-triangle"></i>Error</h5>
-                            Se ha presentado un error.
-                        </div>
+
                     </div>
+
+                    <!-- Formulario de referencias de cada ticket -->
                     <div class="col-8 px-2 table-content-referencias">
+
                         <table class="table table-bordered" id="table-references-ticket">
+
+                            <!-- Head table -->
                             <thead>
                                 <tr>
                                     <th style="width: 20%" class="text-center">Cod. ref</th>
@@ -110,6 +124,8 @@
                                     <th style="width: 20%" class="text-center">Valor</th>
                                 </tr>
                             </thead>
+                            
+                            <!-- Body table -->
                             <tbody>
                                 <tr class="row-form row-1">
                                     <td>
@@ -126,16 +142,37 @@
                                     </td>
                                 </tr>
                             </tbody>
+                        
                         </table>
+                        
+                        <!-- Mensaje de errores -->
+                        <div class="invalid-feedback error-table-ref ml-2">
+                            Algunas referencias tienen errores.
+                        </div>
+                        
+                        <!-- Icono de carga de formulario -->
+                        <div class="onprocess-form">
+                            <i class="fas fa-3x fa-sync-alt"></i>
+                        </div>
+
+                        <!-- Alertas de errores -->
+                        <div class="invalid-feedback error-form-ticket ml-2"></div>
+                        <div class="valid-feedback success-form-ticket ml-2"></div>
                     </div>
                 </div>
             </div>
+            
+            <!-- Footer modal -->
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button id="create-new-ticket" type="button" class="btn btn-primary">Guardar ticket</button>
+                <div>
+                    <span class="text-url-ticket">Click aquí para ver el nuevo Ticket:
+                        <b><a href="">Click aquí</a></b>
+                    </span>
+                </div>
+                <button id="create-new-ticket" type="button" class="btn btn-primary" data-creator="<?php echo $user_sia['cod_mer'] ?>">Guardar ticket</button>
             </div>
+
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>

@@ -76,5 +76,9 @@ Formulario para crear ticket
 
 .modal-body .table-content-referencias{
     overflow-y: scroll;
-    max-height: 460px;
+    max-height: 360px;
+}
+
+.text-url-ticket{
+    display: none;
 }
