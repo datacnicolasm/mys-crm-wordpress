@@ -1,6 +1,15 @@
 <?php
 try {
-    $tickets = json_decode(CRM_HUB_API::GET("tickets"), true)["data"];
+    $parametros = array(
+        'cod_mer' => $user_sia["cod_mer"],
+        'time_month' => '12'
+    );
+
+    $headers = [
+        'Authorization: ' . CRM_HUB_MYS_API_TOKEN,
+    ];
+
+    $tickets = json_decode(CRM_HUB_API::POST("indexUserFilter", $parametros, $headers), true)["data"];
 } catch (Exception $e) {
     echo 'Excepción capturada: ',  $e->getMessage(), "\n";
 }
@@ -58,7 +67,7 @@ try {
                             switch ($ticket['cod_estado']){
                                 case '0':
                                     echo '<td>';
-                                    echo '<span class="badge bg-danger">Pendiente</span>';
+                                    echo '<span class="badge bg-info">Pendiente</span>';
                                     echo '</td>';
                                     break;
                                 case '1':
@@ -68,7 +77,12 @@ try {
                                     break;
                                 case '2':
                                     echo '<td>';
-                                    echo '<span class="badge bg-success">Listo</span>';
+                                    echo '<span class="badge bg-success">Vendido</span>';
+                                    echo '</td>';
+                                    break;
+                                case '3':
+                                    echo '<td>';
+                                    echo '<span class="badge bg-danger">Venta perdida</span>';
                                     echo '</td>';
                                     break;
                             }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Vista de un producto especifico
  */
@@ -10,7 +11,11 @@ try {
             'idrow' => $id_product
         );
 
-        $products = json_decode(CRM_HUB_API::POST("product", $parametros), true)["data"];
+        $headers = [
+            'Authorization: ' . CRM_HUB_MYS_API_TOKEN,
+        ];
+
+        $products = json_decode(CRM_HUB_API::POST("product", $parametros, $headers), true)["data"];
     };
 } catch (Exception $e) {
     echo 'Excepción capturada: ',  $e->getMessage(), "\n";
@@ -18,11 +23,11 @@ try {
 
 $reg_ecommerce = false;
 
-if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
+if (wc_get_product_id_by_sku($products["cod_ref"]) == 0) {
     $reg_ecommerce = false;
 } else {
     $reg_ecommerce = true;
-    $product_wc = wc_get_product(wc_get_product_id_by_sku($products[0]["cod_ref"]));
+    $product_wc = wc_get_product(wc_get_product_id_by_sku($products["cod_ref"]));
 }
 ?>
 <div class="row">
@@ -34,10 +39,6 @@ if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" href="#tickets" data-toggle="tab">Tickets</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#stock" data-toggle="tab">Saldos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#invoices" data-toggle="tab">Facturas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#purchases" data-toggle="tab">Compras</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#data" data-toggle="tab">Data</a></li>
                 </ul>
             </div>
             <div class="card-body">
@@ -48,12 +49,13 @@ if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
                             <?php
                             try {
 
-                                $sku_product = $products[0]["cod_ref"];
+                                $sku_product = $products["cod_ref"];
                                 $parametros = array(
                                     'sku' => $sku_product
                                 );
-                                $tickets = json_decode(CRM_HUB_API::POST("ticketProduct", $parametros), true)["data"];
-                                
+
+                                $tickets = json_decode(CRM_HUB_API::POST("tickesProduct", $parametros, $headers), true)["data"];
+
                             } catch (Exception $e) {
                                 echo 'Excepción capturada: ',  $e->getMessage(), "\n";
                             }
@@ -125,26 +127,6 @@ if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
                             </table>
                         </div>
                     </div>
-
-                    <div class="tab-pane" id="stock">
-                        <!-- Saldos -->
-                        <div class="card-body p-0"></div>
-                    </div>
-                    
-                    <div class="tab-pane" id="invoices">
-                        <!-- Facturas -->
-                        <div class="card-body p-0"></div>
-                    </div>
-                    
-                    <div class="tab-pane" id="purchases">
-                        <!-- Compras -->
-                        <div class="card-body p-0"></div>
-                    </div>
-
-                    <div class="tab-pane" id="data">
-                        <!-- Datos -->
-                        <div class="card-body p-0"></div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -170,20 +152,20 @@ if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
 
                     ?>
                 </div>
-                <h4 class="profile-username text-center"><?php echo esc_html($products[0]["nom_ref"]) ?></h4>
-                <p class="text-muted text-center"><?php echo "Cod. " . esc_html($products[0]["cod_ref"]) ?></p>
+                <h4 class="profile-username text-center"><?php echo esc_html($products["nom_ref"]) ?></h4>
+                <p class="text-muted text-center"><?php echo "Cod. " . esc_html($products["cod_ref"]) ?></p>
 
                 <?php
 
                 $reg_ecommerce = false;
 
-                if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
+                if (wc_get_product_id_by_sku($products["cod_ref"]) == 0) {
                     echo '<div class="text-center alert-crm">';
                     echo '<span class="badge bg-warning">Sin registro en E-commerce</span>';
                     echo '</div>';
                 } else {
                     $reg_ecommerce = true;
-                    $product_wc = wc_get_product(wc_get_product_id_by_sku($products[0]["cod_ref"]));
+                    $product_wc = wc_get_product(wc_get_product_id_by_sku($products["cod_ref"]));
                     echo '<div class="text-center alert-crm">';
                     echo '<span class="badge bg-success">Registrado en e-commerce</span>';
                     echo '</div>';
@@ -193,17 +175,17 @@ if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
 
                 <ul class="list-group list-group-unbordered mb-3">
                     <li class="list-group-item">
-                        <b>Marca:</b> <span class="float-right"><?php echo esc_html($products[0]["brand"]["Nom_mar"]) ?></span>
+                        <b>Marca:</b> <span class="float-right"><?php echo esc_html($products["brand"]["Nom_mar"]) ?></span>
                     </li>
                     <li class="list-group-item">
-                        <b>Linea:</b> <span class="float-right"><?php echo esc_html($products[0]["type"]["nom_tip"]) ?></span>
+                        <b>Linea:</b> <span class="float-right"><?php echo esc_html($products["type"]["nom_tip"]) ?></span>
                     </li>
                     <li class="list-group-item">
-                        <b>Grupo:</b> <span class="float-right"><?php echo esc_html($products[0]["group"]["nom_gru"]) ?></span>
+                        <b>Grupo:</b> <span class="float-right"><?php echo esc_html($products["group"]["nom_gru"]) ?></span>
                     </li>
                     <li class="list-group-item">
                         <b>Precio de venta:</b> <span class="float-right">
-                            <?php echo esc_html(number_format(floatval($products[0]["val_ref"]), 0, ',', '.')) ?>
+                            <?php echo esc_html(number_format(floatval($products["val_ref"]), 0, ',', '.')) ?>
                         </span>
                     </li>
                     <li class="list-group-item">
@@ -221,7 +203,7 @@ if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
                         <b>Precio con descuento:</b> <span class="float-right">
                             <?php
                             if ($reg_ecommerce && floatval($product_wc->get_sale_price()) > 0) {
-                                $precio_normal = floatval($products[0]["val_ref"]);
+                                $precio_normal = floatval($products["val_ref"]);
                                 $precio_descuento = floatval($product_wc->get_sale_price());
                                 $calc_descuento = floatval((1 - ($precio_descuento / $precio_normal)) * 100);
                                 echo "% " . esc_html(number_format($calc_descuento, 2, ',', '.'));
@@ -232,13 +214,13 @@ if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
                         </span>
                     </li>
                     <li class="list-group-item">
-                        <b>Stock minimo</b> <span class="float-right"><?php echo esc_html($products[0]["stock_min"]) ?></span>
+                        <b>Stock minimo</b> <span class="float-right"><?php echo esc_html($products["stock_min"]) ?></span>
                     </li>
                     <li class="list-group-item">
                         <b>Rotacion</b> <span class="float-right">
                             <?php
 
-                            switch ($products[0]["rotacion"]) {
+                            switch ($products["rotacion"]) {
                                 case '0':
                                     echo esc_html("BAJA ROTACIÓN");
                                     break;
@@ -251,9 +233,6 @@ if (wc_get_product_id_by_sku($products[0]["cod_ref"]) == 0) {
                             }
                             ?>
                         </span>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Indicador de rotacion</b> <a class="float-right">999</a>
                     </li>
                 </ul>
                 <?php

@@ -53,7 +53,7 @@ Estilos de pagina customer
     top: 100px;
 }
 
-.widget-customer .widget-customer-image > img{
+.widget-customer .widget-customer-image>img {
     border: 3px solid #fff;
     height: auto;
     width: 90px;
@@ -66,19 +66,69 @@ Estilos de pagina customer
 /*
 Formulario para crear ticket
 */
-.form-create-ticket .alert-success{
+.form-create-ticket .alert-success {
     display: none;
 }
 
-.form-create-ticket .alert-error{
+.form-create-ticket .alert-error {
     display: none;
 }
 
-.modal-body .table-content-referencias{
+.modal-body .table-content-referencias {
     overflow-y: scroll;
     max-height: 360px;
 }
 
-.text-url-ticket{
+.text-url-ticket {
     display: none;
+}
+
+a.focus {
+    box-shadow: none !important;
+}
+
+.nav-link:focus {
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Tabla de agregar referencia */
+
+#table_add_referencia td {
+    padding: 1rem;
+}
+
+#table_add_referencia {
+    display: none;
+}
+
+.btn-delete-ref {
+    border-radius: 4px !important;
+    border: none !important;
+    font-size: 1rem !important;
+    height: 30px !important;
+    margin: auto !important;
+    min-width: 50px !important;
+    padding: 3px 0 !important;
+}
+
+/* dropdown-menu */
+.dropdown-menu-crm{
+    max-width: 600px !important;
+    min-width: 30rem !important;
+    padding: 0 !important;
+}
+
+.dropdown-menu-crm .dropdown-item .title-notice{
+    font-size: .8rem !important;
+}
+
+.dropdown-menu-crm .dropdown-item .time-notice{
+    font-size: .8rem !important;
+}
+
+/* Notificaciones */
+a.notification{
+    color: #000 !important;
+    background-color: #f2f2f2;
 }

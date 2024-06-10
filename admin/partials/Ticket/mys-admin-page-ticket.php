@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Vista de un ticket especifico
  */
@@ -10,10 +11,12 @@ try {
             'idreg' => $id_ticket
         );
 
-        $ticket = json_decode(CRM_HUB_API::POST("ticket", $parametros), true)["data"];
-        //echo '<pre>';
-        //var_dump($ticket[0]);
-        //echo '</pre>';
+        $headers = [
+            'Authorization: ' . CRM_HUB_MYS_API_TOKEN,
+        ];
+
+        $ticket = json_decode(CRM_HUB_API::POST("ticket", $parametros, $headers), true)["data"];
+
     };
 } catch (Exception $e) {
     echo 'Excepción capturada: ',  $e->getMessage(), "\n";
@@ -25,7 +28,7 @@ try {
     <!-- Columna de informacion del ticket -->
     <div class="col-md-4">
 
-        <!-- Imagen del producto -->
+        <!-- Informacion basica del ticket -->
         <div class="card card-maroon card-outline card-crm-products-left">
             <div class="card-body" id="card-ticket-form">
                 <h4 class="text-center"><?php echo esc_html($ticket[0]['title_ticket']); ?></h4>
@@ -46,7 +49,7 @@ try {
                         case '2':
                             echo '<span class="badge bg-success">Vendido</span>';
                             break;
-                        case '2':
+                        case '3':
                             echo '<span class="badge bg-danger">Venta perdidá</span>';
                             break;
                     }
@@ -72,25 +75,25 @@ try {
                                             case '0':
                                                 echo '<option value="0" selected>Pendiente</option>';
                                                 echo '<option value="1">En proceso</option>';
-                                                echo '<option value="2">Listo</option>';
+                                                echo '<option value="2">Vendido</option>';
                                                 echo '<option value="3">Venta perdidá</option>';
                                                 break;
                                             case '1':
                                                 echo '<option value="0">Pendiente</option>';
                                                 echo '<option value="1" selected>En proceso</option>';
-                                                echo '<option value="2">Listo</option>';
+                                                echo '<option value="2">Vendido</option>';
                                                 echo '<option value="3">Venta perdidá</option>';
                                                 break;
                                             case '2':
                                                 echo '<option value="0">Pendiente</option>';
                                                 echo '<option value="1">En proceso</option>';
-                                                echo '<option value="2" selected>Vnedido</option>';
+                                                echo '<option value="2" selected>Vendido</option>';
                                                 echo '<option value="3">Venta perdidá</option>';
                                                 break;
                                             case '3':
                                                 echo '<option value="0">Pendiente</option>';
                                                 echo '<option value="1">En proceso</option>';
-                                                echo '<option value="2">Listo</option>';
+                                                echo '<option value="2">Vendido</option>';
                                                 echo '<option value="3" selected>Venta perdidá</option>';
                                                 break;
                                         }
@@ -199,6 +202,7 @@ try {
                     <div class="tab-pane" id="description">
                         <!-- Descripcion -->
                         <div class="card-body p-0">
+
                             <!-- Informacion del cliente -->
                             <div class="row mb-2">
                                 <div class="col-12 pb-2">
@@ -241,12 +245,169 @@ try {
                                     <span><?php echo esc_html($ticket[0]['customer']['email']) ?></span>
                                 </div>
                             </div>
+
+                            <!-- Listado de referencias del ticket -->
+                            <div class="row my-3">
+                                <div class="col-12 pb-3">
+                                    <span class="font-weight-bold mb-2">Referencias del Ticket</span>
+                                </div>
+
+                                <div class="col-12">
+                                    <table class="table table-bordered" id="table-refs-ticket-db">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Cod Ref</th>
+                                                <th>Referencia</th>
+                                                <th class="text-center">Cantidad</th>
+                                                <th class="text-center">Valor</th>
+                                                <th class="text-center">Editar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $referencias = $ticket[0]["references"];
+                                            foreach ($referencias as $refs) {
+
+                                                echo "<tr>";
+                                                echo "<td>" . $refs["idreg"] . "</td>";
+                                                echo "<td>" . $refs["cod_ref"] . "</td>";
+                                                echo "<td>" . substr($refs["product"]["nom_ref"], 0, 40) . "</td>";
+                                                echo '<td class="text-right">' . intval($refs["cantidad"]) . "</td>";
+                                                echo '<td class="text-right">' . number_format(intval($refs["val_uni"]), 0, '.', ',') . "</td>";
+                                                echo '<td class="text-center">';
+                                                echo '<a class="btn btn-delete-ref bg-danger" data-ref="' . $refs["idreg"] . '">';
+                                                echo '<i class="fas fa-trash"></i>';
+                                                echo '</a>';
+                                                echo '</td>';
+                                                echo "</tr>";
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-12 pb-3">
+                                    <button type="button" class="btn bg-gradient-primary" id="btn-table_add_referencia">Agregar referencia</button>
+                                    <div class="row mt-2">
+                                        <div class="col-12">
+                                            <table class="table table-bordered" id="table_add_referencia" data-ticket="<?php echo $id_ticket; ?>">
+
+                                                <!-- Head table -->
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 20%" class="text-center">Cod. ref</th>
+                                                        <th style="width: 45%" class="text-center">Referencia</th>
+                                                        <th style="width: 15%" class="text-center">Cantidad</th>
+                                                        <th style="width: 20%" class="text-center">Valor</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <!-- Body table -->
+                                                <tbody>
+                                                    <tr class="row-form row-1">
+                                                        <td>
+                                                            <input type="text" class="form-control rounded-1 text-left cod_ref" value="">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control rounded-1 text-left nom_ref" value="" disabled>
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control rounded-1 text-center cantidad" value="1">
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" class="form-control rounded-1 text-right val_uni" value="0">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+
+                                            <div class="invalid-feedback error-cod-referencia ml-2">
+                                                El codigo de referencia no existe.
+                                            </div>
+                                            <div class="valid-feedback success-cod-referencia ml-2">
+                                                El codigo de referencia si existe <br>
+                                                Presione <strong>Enter</strong> en el espacio de "Valor" para agregar la referencia
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Agregar comentarios -->
+                            <div class="row mb-2">
+                                <div class="col-12 pb-2">
+                                    <span class="font-weight-bold mb-2">Agregar comentarios</span>
+                                </div>
+                                <div class="col-12 pb-2">
+                                    <div class="form-group">
+                                        <textarea name="coment_ticket" id="coment_ticket" class="form-control" rows="5"></textarea>
+                                    </div>
+                                    <button type="button" class="btn bg-gradient-primary" id="btn-coment_ticket" data-creator="<?php echo $user_sia['cod_mer'] ?>" data-ticketID="<?php echo $id_ticket; ?>">Agregar comentario</button>
+                                    <div class="invalid-feedback error-comment-ticket ml-2">
+                                        No se ha agregado el comentario.
+                                    </div>
+                                    <div class="valid-feedback success-comment-ticket ml-2">
+                                        Se ha agregado el comentario.
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
                     <div class="tab-pane" id="timeline">
-                        <!-- Facturas -->
-                        <div class="card-body p-0"></div>
+                        <?php
+
+                        ?>
+
+                        <!-- The timeline -->
+                        <div class="timeline timeline-inverse">
+
+                            <?php
+
+                            $notices = $ticket[0]["notices"];
+
+                            for ($i = 0; $i < count($notices); $i++) {
+                                
+                                $created = new DateTimeImmutable($notices[$i]["created_at"]);
+
+                            ?>
+                                <!-- timeline time label -->
+                                <div class="time-label">
+                                    <span class="bg-danger px-3">
+                                        <?php echo $created->format('d M. Y'); ?>
+                                    </span>
+                                </div>
+                                <!-- /.timeline-label -->
+
+                                <!-- timeline item -->
+                                <div>
+                                    <i class="fas fa-bell bg-primary"></i>
+
+                                    <div class="timeline-item">
+                                        <span class="time"><i class="far fa-clock"></i> <?php echo $created->format('h:i a'); ?></span>
+
+                                        <h3 class="timeline-header">
+                                            <a href="#">
+                                                <?php echo $notices[$i]["user"]["cod_mer"] . "- " . $notices[$i]["user"]["nom_mer"] ?>
+                                            </a>
+                                            <?php echo " " . $notices[$i]["title"]; ?>
+                                        </h3>
+
+                                        <div class="timeline-body">
+                                            <?php echo $notices[$i]["text_notice"]; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END timeline item -->
+                            <?php
+                            }
+
+                            ?>
+
+                        </div>
                     </div>
 
                 </div>

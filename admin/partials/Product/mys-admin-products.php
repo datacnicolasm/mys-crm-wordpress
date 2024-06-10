@@ -22,7 +22,7 @@
                     </thead>
                     <tbody>
                         <?php
-                        $products = json_decode(CRM_HUB_API::GET("products"), true)["data"];
+                        $products = json_decode(CRM_HUB_API::GET("products", $headers), true)["data"];
                         foreach ($products as $product) {
                             echo "<tr>";
                             echo "<td>";

@@ -12,7 +12,11 @@
             'cod_mer' => $current_user->data->cod_siasoft
         );
 
-        $user_sia = json_decode(CRM_HUB_API::POST("user", $parametros), true)["data"][0];
+        $headers = [
+            'Authorization: ' . CRM_HUB_MYS_API_TOKEN,
+        ];
+
+        $user_sia = json_decode(CRM_HUB_API::POST("user", $parametros, $headers), true)["data"][0];
         
     } catch (Exception $e) {
         echo 'Excepción capturada: ',  $e->getMessage(), "\n";
@@ -37,37 +41,50 @@
                 <div class="content-header">
                     <div class="container-fluid">
                         <div class="row mb-2">
+                            <!-- Titulo para cada página -->
                             <div class="col-sm-6">
                                 <?php
-                                /**
-                                 * Condicional de titulo para cada pagina
-                                 */
+                                // Condicional de titulo para cada página
                                 if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'clientes') {
+
                                     echo '<h1 class="m-0">Clientes</h1>';
-                                };
-                                if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'productos') {
+
+                                } else if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'productos') {
+
                                     echo '<h1 class="m-0">Productos</h1>';
-                                };
-                                if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'tickets') {
+
+                                } else if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'tickets') {
+
                                     echo '<h1 class="m-0">Tickets de clientes</h1>';
-                                };
-                                if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-product') {
+
+                                } else if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'notices') {
+
+                                    echo '<h1 class="m-0">Notificaciones</h1>';
+
+                                } else if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-product') {
+
                                     echo '<h1 class="m-0">Detalle de producto</h1>';
-                                };
-                                if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-ticket') {
+
+                                } else if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-ticket') {
+
                                     echo '<h1 class="m-0">Detalle de ticket</h1>';
-                                };
-                                if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-customer') {
+
+                                } else if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-customer') {
+
                                     echo '<h1 class="m-0">Detalle de cliente</h1>';
+
+                                } else {
+
+                                    echo '<h1 class="m-0">Dashboard CRM</h1>';
+
                                 };
                                 ?>
                             </div>
+                            <!-- Breadcrumb de ruta actual -->
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                     <?php
-                                    /**
-                                     * Breadcrumb de ruta actual
-                                     */
+                                    // Breadcrumb de ruta actual
                                     echo '<li class="breadcrumb-item"><a href="';
                                     echo get_admin_url() . 'admin.php?page=mys_crm_hub';
                                     echo '">Home</a></li>';
@@ -80,6 +97,9 @@
                                     };
                                     if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'tickets') {
                                         echo '<li class="breadcrumb-item active">Tickets de clientes</li>';
+                                    };
+                                    if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'notices') {
+                                        echo '<li class="breadcrumb-item active">Notificaciones</li>';
                                     };
                                     if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-product') {
                                         echo '<li class="breadcrumb-item active">Detalle de producto</li>';
@@ -100,34 +120,34 @@
                 <!-- Main content -->
                 <section class="content">
                     <div class="container-fluid">
-
                         <?php
-                        /**
-                         * Condicional de vista que se muestra segun los parametros
-                         */
+                        // Condicional de vista que se muestra segun los parametros
                         if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'clientes') {
                             //Data customers
                             require_once 'Customer/mys-admin-customers.php'; 
-                        };
-                        if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'productos') {
+                        } else if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'productos') {
                             //Data product list
                             require_once 'Product/mys-admin-products.php';
-                        };
-                        if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'tickets') {
+                        } else if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'tickets') {
                             //Data tickets list
                             require_once 'Ticket/mys-admin-tickets.php';
-                        };
-                        if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-product') {
+                        } else if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-product') {
                             //Data of a product
                             require_once 'Product/mys-admin-page-product.php';
-                        };
-                        if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-ticket') {
+                        } else if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-ticket') {
                             //Data of a product
                             require_once 'Ticket/mys-admin-page-ticket.php';
-                        };
-                        if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-customer') {
+                        } else if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'page-customer') {
                             //Data of a customer
                             require_once 'Customer/mys-admin-page-customer.php';
+                        } else if (isset($_GET["sub-page"]) && $_GET["sub-page"] == 'notices') {
+                            //Data notices list
+                            require_once 'Notifications/mys-admin-notifications.php';
+                        } else {
+                            // Dashboard
+                            require_once 'Dashboard/mys-admin-home.php';
+                            //Data tickets list
+                            require_once 'Ticket/mys-admin-tickets.php';
                         };
                         ?>
 

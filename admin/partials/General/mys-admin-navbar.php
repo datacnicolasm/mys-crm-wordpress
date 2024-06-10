@@ -1,7 +1,17 @@
 <?php
+
 /**
  * Vista de menu de navegacion
  */
+$parametros = array(
+    'cod_mer' => $current_user->data->cod_siasoft
+);
+
+$headers = [
+    'Authorization: ' . CRM_HUB_MYS_API_TOKEN,
+];
+
+$notices = json_decode(CRM_HUB_API::POST("userNotices", $parametros, $headers), true)["data"];
 ?>
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -20,93 +30,67 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
 
-        <!-- Messages Dropdown Menu -->
-        <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="far fa-comments"></i>
-                <span class="badge badge-danger navbar-badge">3</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a href="#" class="dropdown-item">
-                    <!-- Message Start -->
-                    <div class="media">
-                        <img src=<?php echo CRM_HUB_MYS_PLUGIN_URL . '/admin/dist/img/user-default.png' ?> alt="User Avatar" class="img-size-50 mr-3 img-circle" height="128px" width="128px">
-                        <div class="media-body">
-                            <h3 class="dropdown-item-title">
-                                Brad Diesel
-                                <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                            </h3>
-                            <p class="text-sm">Call me whenever you can...</p>
-                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                        </div>
-                    </div>
-                    <!-- Message End -->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <!-- Message Start -->
-                    <div class="media">
-                        <img src=<?php echo CRM_HUB_MYS_PLUGIN_URL . '/admin/dist/img/user-default.png' ?> height="128px" width="128px" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                        <div class="media-body">
-                            <h3 class="dropdown-item-title">
-                                John Pierce
-                                <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                            </h3>
-                            <p class="text-sm">I got your message bro</p>
-                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                        </div>
-                    </div>
-                    <!-- Message End -->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <!-- Message Start -->
-                    <div class="media">
-                        <img src=<?php echo CRM_HUB_MYS_PLUGIN_URL . '/admin/dist/img/user-default.png' ?> height="128px" width="128px" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                        <div class="media-body">
-                            <h3 class="dropdown-item-title">
-                                Nora Silvester
-                                <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                            </h3>
-                            <p class="text-sm">The subject goes here</p>
-                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                        </div>
-                    </div>
-                    <!-- Message End -->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-            </div>
-        </li>
-        
         <!-- Notifications Dropdown Menu -->
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
                 <i class="far fa-bell"></i>
-                <span class="badge badge-warning navbar-badge">15</span>
+                <?php
+                require_once 'mys-admin-cron.php';
+                if(count($notices)+count($notices_referencias) > 0)
+                {
+                    ?>
+                    <span class="badge badge-warning navbar-badge"><?php echo count($notices)+count($notices_referencias) ?></span>
+                    <?php
+                }
+                ?>
             </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <span class="dropdown-item dropdown-header">15 Notifications</span>
+            <div class="dropdown-menu dropdown-menu-crm dropdown-menu-right">
+                <span class="dropdown-item dropdown-header mt-2"><?php echo count($notices)+count($notices_referencias) ?> Notificaciones</span>
                 <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-envelope mr-2"></i> 4 new messages
-                    <span class="float-right text-muted text-sm">3 mins</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-users mr-2"></i> 8 friend requests
-                    <span class="float-right text-muted text-sm">12 hours</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-file mr-2"></i> 3 new reports
-                    <span class="float-right text-muted text-sm">2 days</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                <?php
+                if (count($notices_referencias) > 0) {
+                    $count_ref_notices = (count($notices_referencias) >= 4) ? 3 : count($notices_referencias)-1;
+                    for ($i = 0; $i <= $count_ref_notices; $i++) {
+
+                        $date = new DateTimeImmutable();
+
+                ?>
+                        <a href="<?php echo get_admin_url() . 'admin.php?page=mys_crm_hub&sub-page=page-ticket&id-ticket=' .  $notices_referencias[$i]['idreg_ticket'] ?>" class="dropdown-item">
+                            <i class="fas fa-bell mr-2"></i>
+                            <span class="title-notice text-sm"><?php echo '[#' . $notices_referencias[$i]['idreg_ticket'] . '] Ya hay unidades de la ref. <strong>' . trim($notices_referencias[$i]['cod_ref']) . '</strong>.'?></span>
+                            <span class="float-right time-notice text-muted text-sm"><?php echo $date->format('d M. Y') ?></span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    <?php
+                    }
+                }
+                
+                if (count($notices) > 0) {
+                    $count_notices = (count($notices) >= 4) ? 3 : count($notices)-1;
+                    for ($i = 0; $i <= $count_notices; $i++) {
+                        $date = new DateTimeImmutable($notices[$i]['created_at']);
+                        ?>
+                        <a href="<?php echo get_admin_url() . 'admin.php?page=mys_crm_hub&sub-page=page-ticket&id-ticket=' .  $notices[$i]['id_ticket'] ?>" class="dropdown-item">
+                            <i class="fas fa-bell mr-2"></i>
+                            <span class="title-notice text-sm"><?php echo '[#' . $notices[$i]['id_ticket'] . '] Un usuario ' . $notices[$i]['title'] ?></span>
+                            <span class="float-right time-notice text-muted text-sm"><?php echo $date->format('d M. Y') ?></span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    <?php
+                    }
+                } else {
+                    ?>
+                    <a href="#" class="dropdown-item">
+                        <span class="title-notice text-sm">No tienes notificaciones</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                <?php
+                }
+                ?>
+                <a href="<?php echo get_admin_url() . 'admin.php?page=mys_crm_hub&sub-page=notices' ?>" class="dropdown-item dropdown-footer mb-2">Ver todas las notificaciones</a>
             </div>
         </li>
-        
+
     </ul>
 </nav>
 <!-- /.navbar -->

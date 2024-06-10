@@ -57,6 +57,9 @@ class CRM_HUB_MYS_Admin {
     public function enqueue_scripts() {
         wp_enqueue_editor();
 
+        wp_enqueue_script( 'GSAP', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js', [], $this->version, true);
+        wp_enqueue_script( 'ScrollTrigger', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js', [], $this->version, true);
+
         wp_enqueue_script( 'jquery.dataTables', CRM_HUB_MYS_PLUGIN_URL . '/admin/plugins/datatables/jquery.dataTables.min.js', ['jquery'], $this->version, true);
         wp_enqueue_script( 'dataTables.bootstrap4', CRM_HUB_MYS_PLUGIN_URL . '/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js', ['jquery'], $this->version, true);
         wp_enqueue_script( 'dataTables.responsive', CRM_HUB_MYS_PLUGIN_URL . '/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js', ['jquery'], $this->version, true);
@@ -86,7 +89,8 @@ class CRM_HUB_MYS_Admin {
         wp_enqueue_script( 'overlayScrollbars', CRM_HUB_MYS_PLUGIN_URL . "/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js", array(), $this->version, true );
         wp_enqueue_script( 'AdminLTEApp', CRM_HUB_MYS_PLUGIN_URL . "/admin/dist/js/adminlte.js", ['jquery'], $this->version, true );
         wp_enqueue_script( 'AdminLTEdemo', CRM_HUB_MYS_PLUGIN_URL . "/admin/dist/js/demo.js", ['jquery'], $this->version, true );
-        wp_enqueue_script( $this->plugin_name, CRM_HUB_MYS_PLUGIN_URL . '/admin/js/bc-admin.js', ['jquery','jQueryUI','Bootstrap4','ChartJS','Sparkline','JQVMap','JQVMapUSA','jQueryKnobChart','moment','daterangepicker','TempusdominusBootstrap4','Summernote','overlayScrollbars','AdminLTEApp','AdminLTEdemo'], $this->version, true );
+        wp_enqueue_script( $this->plugin_name, CRM_HUB_MYS_PLUGIN_URL . '/admin/js/bc-admin.js', ['jquery','jQueryUI','Bootstrap4','ChartJS','Sparkline','JQVMap','JQVMapUSA','jQueryKnobChart','moment','daterangepicker','TempusdominusBootstrap4','Summernote','overlayScrollbars','AdminLTEApp','AdminLTEdemo','GSAP','ScrollTrigger'], $this->version, true );
+        
         wp_localize_script(
             $this->plugin_name,
             'object_ajax',

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Vista de formulacio para crear ticket
  */
@@ -14,7 +15,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            
+
             <!-- Body modal -->
             <div class="modal-body">
                 <div class="row">
@@ -24,7 +25,7 @@
 
                         <!-- Formulario para crear ticket -->
                         <div class="row">
-                            
+
                             <!-- Tipo de ticket -->
                             <div class="col-3 pt-1 pb-2">
                                 <span class="text-muted">Tipo de ticket:</span>
@@ -34,7 +35,10 @@
                                     <select name="cod_type" id="cod_type" class="form-control-sm custom-select rounded-1">
                                         <?php
                                         try {
-                                            $types = json_decode(CRM_HUB_API::GET("typetickets"), true)["data"];
+                                            $headers = [
+                                                'Authorization: ' . CRM_HUB_MYS_API_TOKEN,
+                                            ];
+                                            $types = json_decode(CRM_HUB_API::GET("typetickets", $headers), true)["data"];
                                             foreach ($types as $type) {
                                                 echo '<option value="';
                                                 echo esc_attr($type['idreg']);
@@ -102,7 +106,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <!-- Icono de carga -->
                         <div class="onprocess-form">
                             <i class="fas fa-3x fa-sync-alt"></i>
@@ -124,7 +128,7 @@
                                     <th style="width: 20%" class="text-center">Valor</th>
                                 </tr>
                             </thead>
-                            
+
                             <!-- Body table -->
                             <tbody>
                                 <tr class="row-form row-1">
@@ -142,14 +146,14 @@
                                     </td>
                                 </tr>
                             </tbody>
-                        
+
                         </table>
-                        
+
                         <!-- Mensaje de errores -->
                         <div class="invalid-feedback error-table-ref ml-2">
                             Algunas referencias tienen errores.
                         </div>
-                        
+
                         <!-- Icono de carga de formulario -->
                         <div class="onprocess-form">
                             <i class="fas fa-3x fa-sync-alt"></i>
@@ -161,7 +165,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Footer modal -->
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -170,7 +174,8 @@
                         <b><a href="">Click aquí</a></b>
                     </span>
                 </div>
-                <button id="create-new-ticket" type="button" class="btn btn-primary" data-creator="<?php echo $user_sia['cod_mer'] ?>">Guardar ticket</button>
+
+                <button id="create-new-ticket" type="button" class="btn btn-primary" data-creator="<?php echo $user_sia['cod_mer'] ?>" data-email="<?php echo $current_user->data->user_email; ?>">Guardar ticket</button>
             </div>
 
         </div>

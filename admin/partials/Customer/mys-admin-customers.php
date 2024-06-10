@@ -2,8 +2,13 @@
 /**
  * Vista del listado de clientes
  */
+
+$headers = [
+    'Authorization: ' . CRM_HUB_MYS_API_TOKEN,
+];
+
 try {
-    $customers = json_decode(CRM_HUB_API::GET("customers"), true)["data"];
+    $customers = json_decode(CRM_HUB_API::GET("customers", $headers), true)["data"];
 } catch (Exception $e) {
     echo 'Excepción capturada: ',  $e->getMessage(), "\n";
 }

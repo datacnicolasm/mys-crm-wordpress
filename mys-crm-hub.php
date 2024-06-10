@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name:     CRM de Motos y Servitecas
- * Plugin URI:
- * Description:     Plugin para CRM de Motos y Servitecas
+ * Plugin Name:     CRM de Motos y Servitecas.
+ * Plugin URI:      https://motosyservitecas.com/
+ * Description:     Plugin para CRM de Motos y Servitecas.
  * Version:         1.0.0
- * Author:          Nicolas Muñoz
- * Author URI:
+ * Author:          Nicolas Munoz
+ * Author URI:      https://motosyservitecas.com/
  * Text Domain:     mys_crm_hub
  *
  * @package     CRM_Motos
@@ -15,7 +15,10 @@ defined( 'ABSPATH' ) || die();
 
 global $wpdb;
  
-define( 'CRM_HUB_MYS_API_LARAVEL', 'http://localhost/my-api/public/' );
+define( 'CRM_HUB_MYS_API_TOKEN', '9c296f109cbfa21632dc522a3aade323' );
+#define( 'CRM_HUB_MYS_API_LARAVEL', 'http://localhost/my-api/public/' );
+#define( 'CRM_HUB_MYS_API_LARAVEL', 'https://my-laravel-app-ljafsi4dzq-uc.a.run.app/' );
+define( 'CRM_HUB_MYS_API_LARAVEL', 'http://localhost:8080/' );
 define( 'CRM_HUB_MYS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CRM_HUB_MYS_PLUGIN_FILE', __FILE__ );
 define( 'CRM_HUB_MYS_PLUGIN_URL', plugins_url() . '/mys-crm-hub' );

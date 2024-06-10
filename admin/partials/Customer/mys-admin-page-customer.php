@@ -10,7 +10,11 @@ try {
             'idrow' => $id_customer
         );
 
-        $customer = json_decode(CRM_HUB_API::POST("customer", $parametros), true)["data"][0];
+        $headers = [
+            'Authorization: ' . CRM_HUB_MYS_API_TOKEN,
+        ];
+
+        $customer = json_decode(CRM_HUB_API::POST("customer", $parametros, $headers), true)["data"][0];
     };
 } catch (Exception $e) {
     echo 'Excepción capturada: ',  $e->getMessage(), "\n";
@@ -68,58 +72,11 @@ try {
     <!-- Columna de informacion del ticket -->
     <div class="col-md-8">
 
-        <div class="card card-navy card-outline card-crm-products-rigth">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-4">
-                        <div class="small-box bg-info">
-                            <div class="inner">
-                                <h2>150</h2>
-                                <p>Ordenes de servicio</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-document"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="small-box bg-success">
-                            <div class="inner">
-                                <h2>53</h2>
-                                <p>Facturas</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-document-text"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="small-box bg-danger">
-                            <div class="inner">
-                                <h2>$650.000</h2>
-                                <p>Ticket</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-stats-bars"></i>
-                            </div>
-                            <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Columna de informacion -->
         <div class="card card-navy card-outline card-crm-products-rigth">
             <div class="card-header p-2">
                 <ul class="nav nav-pills">
                     <li class="nav-item"><a class="nav-link active" href="#tickets" data-toggle="tab">Tickets</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Motocicletas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Facturas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Ordenes</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Data</a></li>
                 </ul>
             </div>
             <div class="card-body">
@@ -195,11 +152,6 @@ try {
                                 </tfoot>
                             </table>
                         </div>
-                    </div>
-
-                    <div class="tab-pane" id="timeline">
-                        <!-- Facturas -->
-                        <div class="card-body p-0"></div>
                     </div>
 
                 </div>

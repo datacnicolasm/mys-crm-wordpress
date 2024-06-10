@@ -87,7 +87,7 @@ class CRM_HUB_MYS_Master
         $this->class_cargador =     new CRM_HUB_MYS_Cargador();
         $this->class_admin =        new CRM_HUB_MYS_Admin('mys_crm_hub',CRM_HUB_MYS_VERSION);
         //$this->class_public =       new CRM_HUB_MYS_Public('mys_woocommerce_service',CRM_HUB_MYS_VERSION);
-        //$this->class_ajax =         new CRM_HUB_MYS_Ajax();
+        $this->class_ajax =         new CRM_HUB_MYS_Ajax();
     }
 
     /**
@@ -98,6 +98,7 @@ class CRM_HUB_MYS_Master
         $this->class_cargador->add_list_action( 'admin_enqueue_scripts', $this->class_admin, 'enqueue_styles' );
         $this->class_cargador->add_list_action( 'admin_enqueue_scripts', $this->class_admin, 'enqueue_scripts' );
         $this->class_cargador->add_list_action( 'admin_menu', $this->class_admin, 'add_menu' );
+        $this->class_cargador->add_list_action( 'wp_ajax_get_email_user_wp', $this->class_ajax, 'get_email_user_wp' );
     }
 
     /**
