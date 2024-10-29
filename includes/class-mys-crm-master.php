@@ -1,7 +1,7 @@
 <?php
-require_once 'class-mys-ajax.php';
-require_once 'class-mys-cargador.php';
-require_once 'class-mys-menus.php';
+require_once 'class-mys-crm-ajax.php';
+require_once 'class-mys-crm-cargador.php';
+require_once 'class-mys-crm-menus.php';
 
 /**
  * Clase master que incluye otras clases auxiliares
@@ -51,32 +51,32 @@ class CRM_HUB_MYS_Master
      */
     public function cargar_clases()
     {
-        require_once CRM_HUB_MYS_DIR . 'includes/class-mys-api.php';
+        require_once CRM_HUB_MYS_DIR . 'includes/class-mys-crm-api.php';
 
         /**
          * Clase de cargador para los hooks de Wordpress
          */
-        require_once CRM_HUB_MYS_DIR . 'includes/class-mys-cargador.php';
+        require_once CRM_HUB_MYS_DIR . 'includes/class-mys-crm-cargador.php';
 
         /**
          * Clase de menús para agregar items en el panel de Wordpress
          */
-        require_once CRM_HUB_MYS_DIR . 'includes/class-mys-menus.php';
+        require_once CRM_HUB_MYS_DIR . 'includes/class-mys-crm-menus.php';
 
         /**
          * Clase de interacción con la base de datos
          */
-        require_once CRM_HUB_MYS_DIR . 'includes/class-mys-crud-db.php';
+        require_once CRM_HUB_MYS_DIR . 'includes/class-mys-crm-crud-db.php';
 
         /**
          * Clase de métodos en el panel de Wordpress
          */
-        require_once CRM_HUB_MYS_DIR . 'admin/class-mys-admin.php';
+        require_once CRM_HUB_MYS_DIR . 'admin/class-mys-crm-admin.php';
 
         /**
          * Clase de métodos en el formulario publico
          */
-        require_once CRM_HUB_MYS_DIR . 'public/class-mys-public.php';
+        require_once CRM_HUB_MYS_DIR . 'public/class-mys-crm-public.php';
     }
 
     /**
@@ -85,7 +85,7 @@ class CRM_HUB_MYS_Master
     private function cargar_instancias()
     {
         $this->class_cargador =     new CRM_HUB_MYS_Cargador();
-        $this->class_admin =        new CRM_HUB_MYS_Admin('mys_crm_hub',CRM_HUB_MYS_VERSION);
+        $this->class_admin =        new CRM_HUB_MYS_Admin('mys_crm_hub', CRM_HUB_MYS_VERSION);
         //$this->class_public =       new CRM_HUB_MYS_Public('mys_woocommerce_service',CRM_HUB_MYS_VERSION);
         $this->class_ajax =         new CRM_HUB_MYS_Ajax();
     }
@@ -93,12 +93,13 @@ class CRM_HUB_MYS_Master
     /**
      * Método que agrega las funciones en los hooks de admin
      */
-    private function definir_admin_hooks() {
-        
-        $this->class_cargador->add_list_action( 'admin_enqueue_scripts', $this->class_admin, 'enqueue_styles' );
-        $this->class_cargador->add_list_action( 'admin_enqueue_scripts', $this->class_admin, 'enqueue_scripts' );
-        $this->class_cargador->add_list_action( 'admin_menu', $this->class_admin, 'add_menu' );
-        $this->class_cargador->add_list_action( 'wp_ajax_get_email_user_wp', $this->class_ajax, 'get_email_user_wp' );
+    private function definir_admin_hooks()
+    {
+
+        $this->class_cargador->add_list_action('admin_enqueue_scripts', $this->class_admin, 'enqueue_styles');
+        $this->class_cargador->add_list_action('admin_enqueue_scripts', $this->class_admin, 'enqueue_scripts');
+        $this->class_cargador->add_list_action('admin_menu', $this->class_admin, 'add_menu');
+        $this->class_cargador->add_list_action('wp_ajax_get_email_user_wp', $this->class_ajax, 'get_email_user_wp');
     }
 
     /**
@@ -106,8 +107,6 @@ class CRM_HUB_MYS_Master
      */
     private function definir_public_hooks()
     {
-        //$this->class_cargador->add_list_action( 'wp_enqueue_scripts', $this->class_public, 'enqueue_scripts' );
-        //$this->class_cargador->add_list_action( 'wp_enqueue_scripts', $this->class_public, 'enqueue_styles' );
     }
 
     /**

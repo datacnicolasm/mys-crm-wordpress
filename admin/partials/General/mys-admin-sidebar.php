@@ -98,6 +98,16 @@
                         </p>
                     </a>
                 </li>
+
+                <!-- -->
+                <li class="nav-item">
+                    <a href="https://ninth-blue-44e.notion.site/Ayuda-CRM-HUB-de-Motos-Servitecas-ddfcdea9909949d88c9d3eec8ff48a13?pvs=4" class="nav-link" target="_blank">
+                        <i class="nav-icon fas fa-question-circle"></i>
+                        <p>
+                            Ayuda
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

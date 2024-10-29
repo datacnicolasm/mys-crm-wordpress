@@ -25,7 +25,7 @@ class CRM_HUB_MYS_Admin {
         $this->plugin_name = $plugin_name;
         $this->version = $version;  
         $this->menu_admin = new CRM_HUB_MYS_Menus();
-        $this->crud_db = new MYS_CRUD_DB();
+        $this->crud_db = new CRM_HUB_MYS_CRUD_DB();
         
     }
     
@@ -35,7 +35,6 @@ class CRM_HUB_MYS_Admin {
     public function enqueue_styles() {
         
 		wp_enqueue_style( $this->plugin_name, CRM_HUB_MYS_PLUGIN_URL . '/admin/css/bc-admin.css', array(), $this->version, 'all' );
-        //wp_enqueue_style( 'GoogleFont', 'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback', array(), $this->version, 'all' );
         wp_enqueue_style( 'FontAwesome', CRM_HUB_MYS_PLUGIN_URL . '/admin/plugins/fontawesome-free/css/all.min.css', array(), $this->version, 'all' );
         wp_enqueue_style( 'Ionicons', 'https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css', array(), $this->version, 'all' );
         wp_enqueue_style( 'TempusdominusBootstrap4', CRM_HUB_MYS_PLUGIN_URL . '/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css', array(), $this->version, 'all' );
@@ -93,10 +92,10 @@ class CRM_HUB_MYS_Admin {
         
         wp_localize_script(
             $this->plugin_name,
-            'object_ajax',
+            'my_ajax_obj',
             [
-                'url' => admin_url('admin-ajax.php'),
-                'token' => wp_create_nonce('crm_token')
+                'ajax_url' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('crm_token')
             ]
         );
         
@@ -110,7 +109,7 @@ class CRM_HUB_MYS_Admin {
         $this->menu_admin->add_menu_page(
             __('CRM HUB','mys_crm_hub'),
             __('CRM HUB','mys_crm_hub'),
-            'manage_options',
+            'read',
             'mys_crm_hub',
             [$this, 'control_display_menu'],
             '',

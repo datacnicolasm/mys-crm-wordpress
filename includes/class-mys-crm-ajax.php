@@ -19,7 +19,7 @@ class CRM_HUB_MYS_Ajax
     public function __construct()
     {
 
-        $this->crud_db = new MYS_CRUD_DB();
+        $this->crud_db = new CRM_HUB_MYS_CRUD_DB();
     }
 
     /**
@@ -27,7 +27,17 @@ class CRM_HUB_MYS_Ajax
      */
     public function get_email_user_wp()
     {
-        check_ajax_referer('crm_token', 'security');
+        // Verificación del nonce
+        if (!check_ajax_referer('crm_token', '_ajax_nonce', false)) {
+            wp_send_json_error('Nonce incorrecto.');
+            wp_die();
+        }
+        
+        // Verificación de permisos
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error('No tienes permisos suficientes.');
+            wp_die();
+        }
 
         global $wpdb;
 

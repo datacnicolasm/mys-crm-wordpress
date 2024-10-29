@@ -4,7 +4,7 @@ jQuery(document).ready(function ($) {
         constructor() {
         }
 
-        static url = "http://localhost/my-api/public/";
+        static url = "https://my-laravel-app-ljafsi4dzq-uc.a.run.app/";
 
         /**
          * Actualizar información de un ticket existente.
@@ -68,7 +68,8 @@ jQuery(document).ready(function ($) {
                                 idreg_ticket: data.data.idreg,
                                 cod_ref: ref[0],
                                 cantidad: ref[1],
-                                val_uni: ref[2]
+                                val_uni: ref[2],
+                                cod_creator: $("#create-new-ticket").data("creator")
                             }
                             tableRefsTicket.save_data_table_ticket(dataSend);
                         });
@@ -106,15 +107,13 @@ jQuery(document).ready(function ($) {
          */
         static get_email_user_wp(id) {
             $.ajax({
-                url: object_ajax.url,
-                method: 'POST',
+                url: my_ajax_obj.ajax_url,
+                method: 'post',
+                dataType: 'json',
                 data: {
                     action: 'get_email_user_wp',
-                    security: object_ajax.token,
+                    _ajax_nonce: my_ajax_obj.nonce,
                     id: id
-                },
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader('Authorization', '9c296f109cbfa21632dc522a3aade323');
                 },
                 success: function (response) {
                     ticketClass.validate_data_new_ticket(response.data.email)

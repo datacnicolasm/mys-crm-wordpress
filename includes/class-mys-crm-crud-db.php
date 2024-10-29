@@ -5,7 +5,7 @@
  * 
  * @package     CRM_Motos
  */
-class MYS_CRUD_DB
+class CRM_HUB_MYS_CRUD_DB
 {
     /**
      * 

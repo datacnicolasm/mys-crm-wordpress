@@ -11,7 +11,7 @@ class CRM_HUB_MYS_Cargador
 
     public function __construct()
     {
-        $this->plugin_mys_url = plugins_url() . '/mys_woocommerce_service/';
+        $this->plugin_mys_url = plugins_url() . '/mys-crm-hub/';
         $this->set_hooks = [];
     }
 
